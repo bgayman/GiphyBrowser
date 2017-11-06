@@ -13,6 +13,7 @@ import AVFoundation
 
 protocol GiphyViewModelDelegate: class {
     func giphyViewModel(_ viewModel: GiphyViewModel, didUpdate giphies: [Giphy])
+    func giphyViewModel(_ viewModel: GiphyViewModel, didUpdate colorArt: ColorArt?, for giphy: Giphy)
     func giphyViewModel(_ viewModel: GiphyViewModel, updateFailedWith error: Error)
 }
 
@@ -95,8 +96,7 @@ final class GiphyViewModel: NSObject {
             self.delegate?.giphyViewModel(self, updateFailedWith: error)
         case .success(let response):
             self.shouldShowBottomLoadingCell = response.giphies.isEmpty == false
-            
-            
+            self.processStillImageColors(response: response)
             if refresh {
                 self.giphies = response.giphies
             }
@@ -174,6 +174,8 @@ final class GiphyViewModel: NSObject {
                 guard let image = image, let url = url  else { return }
                 ColorArt.processImage(image, scaledToSize: image.size, withThreshold: 15) { (colorArt) in
                     self.colors[url] = colorArt
+                    guard let giphy = response.giphies.first(where: { $0.images[GiphyViewModel.stillPreviewType.rawValue]?.url == url }) else { return }
+                    self.delegate?.giphyViewModel(self, didUpdate: colorArt, for: giphy)
                 }
             }
         }

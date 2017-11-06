@@ -33,8 +33,13 @@ class GiphyListViewController: UIViewController {
     // MARK: - Setup
     private func setupUI() {
         view.backgroundColor = UIColor.appBeige
-        collectionView.refreshControl = refresh
-        collectionView.refreshControl?.beginRefreshing()
+        
+        if #available(iOS 10.0, *) {
+            collectionView.refreshControl = refresh
+            refresh.beginRefreshing()
+        } else {
+            collectionView.addSubview(refresh)
+        }
     }
     
     // MARK: - Actions
@@ -83,15 +88,22 @@ extension GiphyListViewController: UICollectionViewDelegateFlowLayout {
 }
 
 // MARK: - GiphyViewModelDelegate
-extension GiphyListViewController: GiphyViewModelDelegate {
+extension GiphyListViewController: GiphyViewModelDelegate, ErrorHandleable {
     
     func giphyViewModel(_ viewModel: GiphyViewModel, didUpdate giphies: [Giphy]) {
-        collectionView.refreshControl?.endRefreshing()
+        refresh.endRefreshing()
         collectionView.reloadData()
     }
     
     func giphyViewModel(_ viewModel: GiphyViewModel, updateFailedWith error: Error) {
-        collectionView.refreshControl?.endRefreshing()
+        refresh.endRefreshing()
+        handle(error)
+    }
+    
+    func giphyViewModel(_ viewModel: GiphyViewModel, didUpdate colorArt: ColorArt?, for giphy: Giphy) {
+        let giphyCells = collectionView.visibleCells.flatMap { $0 as? GiphyCollectionViewCell }
+        guard let cell = giphyCells.first(where: { $0.giphy == giphy }) else { return }
+        cell.imageView.backgroundColor = colorArt?.bestColor
     }
 }
 
