@@ -1,0 +1,42 @@
+{
+   "status":200,
+   "result":{
+      "objects":[
+         {
+            "name":"real housewives",
+            "name_encoded":"real-housewives"
+         },
+         {
+            "name":"real housewives of atlanta",
+            "name_encoded":"real-housewives-of-atlanta"
+         },
+         {
+            "name":"real housewives of new york",
+            "name_encoded":"real-housewives-of-new-york"
+         },
+         {
+            "name":"real housewives of new jersey",
+            "name_encoded":"real-housewives-of-new-jersey"
+         },
+         {
+            "name":"real housewives of nyc",
+            "name_encoded":"real-housewives-of-nyc"
+         },
+         {
+            "name":"real housewives of nj",
+            "name_encoded":"real-housewives-of-nj"
+         },
+         {
+            "name":"real housewives of miami",
+            "name_encoded":"real-housewives-of-miami"
+         },
+         {
+            "name":"real housewives of dallas",
+            "name_encoded":"real-housewives-of-dallas"
+         }
+      ],
+      "meta":{
+         "count":8
+      }
+   }
+}
