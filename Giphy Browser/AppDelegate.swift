@@ -18,8 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let listViewController = GiphyListViewController.makeFromStoryboard()
         let navigationController = UINavigationController(rootViewController: listViewController)
         let searchViewController = SearchViewController.makeFromStoryboard()
+        searchViewController.delegate = listViewController
         let searchNavigationController = UINavigationController(rootViewController: searchViewController)
         window?.rootViewController = SheetContainerViewController(masterViewController: navigationController, detailViewController: searchNavigationController)
+        window?.makeKeyAndVisible()
         return true
     }
 

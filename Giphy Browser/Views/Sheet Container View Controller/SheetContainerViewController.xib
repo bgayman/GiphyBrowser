@@ -4,13 +4,12 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13524"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SheetContainerViewController" customModule="Sheet" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SheetContainerViewController" customModule="Giphy_Browser" customModuleProvider="target">
             <connections>
                 <outlet property="detailContainerView" destination="V5S-cp-nMT" id="00p-RP-Iel"/>
                 <outlet property="detailContainerViewBottomConstraint" destination="hSf-hf-RKc" id="C2z-LM-1cR"/>
@@ -83,7 +82,7 @@
                 <constraint firstItem="V5S-cp-nMT" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="STw-aY-SMz"/>
                 <constraint firstItem="V5S-cp-nMT" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" id="Z1j-yx-WNG"/>
                 <constraint firstItem="Y3v-cF-IXu" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ehH-Pu-sRr"/>
-                <constraint firstAttribute="bottom" secondItem="V5S-cp-nMT" secondAttribute="top" constant="64" id="hSf-hf-RKc"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="V5S-cp-nMT" secondAttribute="top" constant="64" id="hSf-hf-RKc"/>
                 <constraint firstItem="hNP-7X-dy6" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" id="jut-dN-hYH"/>
                 <constraint firstAttribute="trailing" secondItem="Y3v-cF-IXu" secondAttribute="trailing" id="sa1-0h-9Mo"/>
             </constraints>

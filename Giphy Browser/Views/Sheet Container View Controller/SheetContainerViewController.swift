@@ -35,7 +35,7 @@ class SheetContainerViewController: UIViewController {
     private let detailContainerCornerRadius: CGFloat = 20
     var bottomConstraintStartView: CGFloat = 64.0
     private var bottomClampOffset: CGFloat = 64.0
-    private var topOffset: CGFloat {
+    var topOffset: CGFloat {
         let topInset: CGFloat
         if #available(iOS 11.0, *) {
             topInset = view.safeAreaInsets.top
@@ -60,6 +60,11 @@ class SheetContainerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        animateDown()
     }
     
     // MARK: - Setup
@@ -127,7 +132,8 @@ class SheetContainerViewController: UIViewController {
     // MARK: - Animation
     func animateDown()
     {
-        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: [], animations:
+        detailViewController.view.endEditing(true)
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: [.allowUserInteraction], animations:
             { [unowned self] in
                 self.detailContainerViewBottomConstraint.constant = self.bottomClampOffset
                 self.overlayView.alpha = 0.0
@@ -137,12 +143,24 @@ class SheetContainerViewController: UIViewController {
     
     func animateUp()
     {
-        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: [], animations:
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: [.allowUserInteraction], animations:
             { [unowned self] in
-                self.detailContainerViewBottomConstraint.constant = self.view.bounds.height - self.topOffset
+                let bottomInset: CGFloat
+                if #available(iOS 11.0, *) {
+                    bottomInset = self.view.safeAreaInsets.bottom
+                }
+                else {
+                    bottomInset = self.bottomLayoutGuide.length
+                }
+                self.detailContainerViewBottomConstraint.constant = self.view.bounds.height - self.topOffset - bottomInset
                 self.overlayView.alpha = 1.0
                 self.view.layoutIfNeeded()
-        })
+        }) { [unowned self] (_) in
+            if let navVC = self.detailViewController as? UINavigationController,
+               let searchViewController = navVC.topViewController as? SearchViewController {
+                searchViewController.searchController.searchBar.becomeFirstResponder()
+            }
+        }
     }
 }
 

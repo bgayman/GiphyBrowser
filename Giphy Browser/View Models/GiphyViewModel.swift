@@ -116,7 +116,6 @@ final class GiphyViewModel: NSObject {
     
     func refresh() {
         currentOffset = 0
-        shouldShowBottomLoadingCell = false
         fetchGiphies(refresh: true)
     }
     

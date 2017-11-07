@@ -11,7 +11,7 @@ import Foundation
 struct GiphyUser: Codable {
     let username: String
     let displayName: String
-    let twitterHandle: String
+    let twitterHandle: String?
     let isVerified: Bool?
     
     private let bannerURLValue: String

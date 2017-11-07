@@ -19,12 +19,10 @@ final class GiphyListViewController: UIViewController, StoryboardInitializable {
     // MARK: - Properties
     private var previousScrollViewYOffset: CGFloat = 0.0
     var viewModel = GiphyViewModel(contentType: .trending) {
-        willSet {
-            collectionView.animateRemovalOfAllItems(sectionItems: [(0, viewModel.numberOfItemsInSection(0))])
-        }
-        
         didSet {
             viewModel.delegate = self
+            title = viewModel.title
+            collectionView.reloadData()
             refresh.beginRefreshing()
         }
     }
@@ -67,10 +65,13 @@ final class GiphyListViewController: UIViewController, StoryboardInitializable {
         
         title = viewModel.title
         
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        navigationController?.navigationItem.titleView = activityIndicator
+        activityIndicator.startAnimating()
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
             navigationController?.navigationItem.largeTitleDisplayMode = .always
-            navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedStringKey.font: UIFont.appFont(weight: .heavy, pointSize: 35.0)]
+            navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedStringKey.font: UIFont.appFont(weight: .black, pointSize: 40.0)]
         }
         else {
             navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font: UIFont.appFont(weight: .medium, pointSize: 23.0)]
@@ -82,10 +83,10 @@ final class GiphyListViewController: UIViewController, StoryboardInitializable {
         
         if #available(iOS 10.0, *) {
             collectionView.refreshControl = refresh
-            refresh.beginRefreshing()
         } else {
             collectionView.addSubview(refresh)
         }
+//        refresh.beginRefreshing()
     }
     
     // MARK: - Actions
@@ -158,11 +159,13 @@ extension GiphyListViewController: GiphyViewModelDelegate, ErrorHandleable {
     }
     
     func giphyViewModel(_ viewModel: GiphyViewModel, updateFailedWith error: Error) {
+        navigationController?.navigationItem.titleView = nil
         refresh.endRefreshing()
         handle(error)
     }
     
     func giphyViewModel(_ viewModel: GiphyViewModel, didUpdate colorArt: ColorArt?, for giphy: Giphy) {
+        navigationController?.navigationItem.titleView = nil
         let giphyCells = collectionView.visibleCells.flatMap { $0 as? GiphyCollectionViewCell }
         guard let cell = giphyCells.first(where: { $0.giphy == giphy }) else { return }
         cell.imageView.backgroundColor = colorArt?.bestColor
@@ -172,7 +175,7 @@ extension GiphyListViewController: GiphyViewModelDelegate, ErrorHandleable {
 extension GiphyListViewController: SearchViewControllerDelegate {
     
     func searchViewController(_ viewController: SearchViewController, didFinishSearchingWith searchString: String) {
-        viewModel = GiphyViewModel(contentType: .search(searchString))
+        viewModel = GiphyViewModel(contentType: .search(searchString.capitalized))
         sheetContainerViewController?.animateDown()
     }
     

@@ -11,6 +11,8 @@
 		C6AC642AF51AC4D15C8933DA /* Pods_Giphy_BrowserTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA73FCA952DA382A263967D /* Pods_Giphy_BrowserTests.framework */; };
 		CD2BA08F1FB153E5001E5724 /* UITableView+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2BA08E1FB153E5001E5724 /* UITableView+Animations.swift */; };
 		CD2BA0901FB1541D001E5724 /* UITableView+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2BA08E1FB153E5001E5724 /* UITableView+Animations.swift */; };
+		CD5958BA1FB1FB63005509B4 /* GiphyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5958B91FB1FB63005509B4 /* GiphyView.swift */; };
+		CD5958BB1FB1FBB8005509B4 /* GiphyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5958B91FB1FB63005509B4 /* GiphyView.swift */; };
 		CD690ED41FAF3DD9004364DF /* GiphyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD690ED31FAF3DD9004364DF /* GiphyCollectionViewCell.swift */; };
 		CD690ED81FAF5FE7004364DF /* GiphyAutocomplete.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD690ED71FAF5FE7004364DF /* GiphyAutocomplete.swift */; };
 		CD690EDA1FAF605E004364DF /* GiphyAutocompleteResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD690ED91FAF605E004364DF /* GiphyAutocompleteResponse.swift */; };
@@ -28,6 +30,9 @@
 		CD6A4D9F1FB0A360007F7B81 /* ErrorHandleable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6A4D9D1FB0A360007F7B81 /* ErrorHandleable.swift */; };
 		CD6A4DA11FB0A3B3007F7B81 /* UIAlertController+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6A4DA01FB0A3B3007F7B81 /* UIAlertController+Error.swift */; };
 		CD6A4DA21FB0A3B3007F7B81 /* UIAlertController+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6A4DA01FB0A3B3007F7B81 /* UIAlertController+Error.swift */; };
+		CD6A4DA41FB1657B007F7B81 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8F9C7B1FB126B700E9BFF6 /* SearchViewController.swift */; };
+		CD6A4DA61FB1D6AA007F7B81 /* MagnifyingGlassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6A4DA51FB1D6AA007F7B81 /* MagnifyingGlassView.swift */; };
+		CD6A4DA71FB1D6AA007F7B81 /* MagnifyingGlassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6A4DA51FB1D6AA007F7B81 /* MagnifyingGlassView.swift */; };
 		CD8F9C7C1FB126B700E9BFF6 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8F9C7B1FB126B700E9BFF6 /* SearchViewController.swift */; };
 		CD8F9C7E1FB14CCC00E9BFF6 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8F9C7D1FB14CCC00E9BFF6 /* SearchViewModel.swift */; };
 		CD8F9C7F1FB14CCC00E9BFF6 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8F9C7D1FB14CCC00E9BFF6 /* SearchViewModel.swift */; };
@@ -100,6 +105,7 @@
 		42705E23CD568021299D0FC8 /* Pods-Giphy BrowserTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Giphy BrowserTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Giphy BrowserTests/Pods-Giphy BrowserTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A789927EDE8429FB20F251B8 /* Pods-Giphy BrowserTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Giphy BrowserTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Giphy BrowserTests/Pods-Giphy BrowserTests.release.xcconfig"; sourceTree = "<group>"; };
 		CD2BA08E1FB153E5001E5724 /* UITableView+Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Animations.swift"; sourceTree = "<group>"; };
+		CD5958B91FB1FB63005509B4 /* GiphyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiphyView.swift; sourceTree = "<group>"; };
 		CD690ED31FAF3DD9004364DF /* GiphyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiphyCollectionViewCell.swift; sourceTree = "<group>"; };
 		CD690ED71FAF5FE7004364DF /* GiphyAutocomplete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiphyAutocomplete.swift; sourceTree = "<group>"; };
 		CD690ED91FAF605E004364DF /* GiphyAutocompleteResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiphyAutocompleteResponse.swift; sourceTree = "<group>"; };
@@ -110,6 +116,7 @@
 		CD690EE91FAF8CD0004364DF /* GiphyUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiphyUser.swift; sourceTree = "<group>"; };
 		CD6A4D9D1FB0A360007F7B81 /* ErrorHandleable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandleable.swift; sourceTree = "<group>"; };
 		CD6A4DA01FB0A3B3007F7B81 /* UIAlertController+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Error.swift"; sourceTree = "<group>"; };
+		CD6A4DA51FB1D6AA007F7B81 /* MagnifyingGlassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MagnifyingGlassView.swift; sourceTree = "<group>"; };
 		CD8F9C7B1FB126B700E9BFF6 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		CD8F9C7D1FB14CCC00E9BFF6 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		CDB8A1741FB0DAFE0049012B /* SheetContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetContainerViewController.swift; sourceTree = "<group>"; };
@@ -222,10 +229,20 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
+		CD6A4DA81FB1DEA8007F7B81 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CD6A4DA51FB1D6AA007F7B81 /* MagnifyingGlassView.swift */,
+				CD5958B91FB1FB63005509B4 /* GiphyView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		CD8F9C801FB151F900E9BFF6 /* Search View Controller */ = {
 			isa = PBXGroup;
 			children = (
 				CD8F9C7B1FB126B700E9BFF6 /* SearchViewController.swift */,
+				CD6A4DA81FB1DEA8007F7B81 /* Views */,
 			);
 			path = "Search View Controller";
 			sourceTree = "<group>";
@@ -496,7 +513,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8C06BD5105C2A6CB31DD8AC6 /* [CP] Embed Pods Frameworks */ = {
@@ -579,7 +596,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -599,12 +616,14 @@
 				CDE38EF91FAF93E200AE9EF8 /* GiphyViewModel.swift in Sources */,
 				CDE9DCE81FAEB745005BBAFD /* Notifications+Application.swift in Sources */,
 				CDE9DCEC1FAEB79C005BBAFD /* GiphyResponse.swift in Sources */,
+				CD5958BA1FB1FB63005509B4 /* GiphyView.swift in Sources */,
 				CDB8A1761FB0DB040049012B /* SheetContainerViewController.swift in Sources */,
 				CD8F9C7C1FB126B700E9BFF6 /* SearchViewController.swift in Sources */,
 				CDE9DCE11FAEB543005BBAFD /* Webservice.swift in Sources */,
 				CDE9DCF71FAEBAC2005BBAFD /* GiphySearchClient.swift in Sources */,
 				CD6A4DA11FB0A3B3007F7B81 /* UIAlertController+Error.swift in Sources */,
 				CDE9DCF21FAEB96A005BBAFD /* GiphyMetadata.swift in Sources */,
+				CD6A4DA61FB1D6AA007F7B81 /* MagnifyingGlassView.swift in Sources */,
 				CDE9DCF91FAEBFDD005BBAFD /* GiphyURLConstructor.swift in Sources */,
 				CDE9DCEF1FAEB94D005BBAFD /* GiphyPagination.swift in Sources */,
 				CDF7E12E1FAEB29C00674579 /* GiphyImageType.swift in Sources */,
@@ -640,6 +659,7 @@
 				CDF7E1321FAEB3D200674579 /* GiphyImageType.swift in Sources */,
 				CDE38EFA1FAF958A00AE9EF8 /* GiphyViewModel.swift in Sources */,
 				CDF7E1211FAEA9CD00674579 /* Giphy_BrowserTests.swift in Sources */,
+				CD6A4DA41FB1657B007F7B81 /* SearchViewController.swift in Sources */,
 				CD690EDF1FAF60FF004364DF /* GiphyAutocompleteResult.swift in Sources */,
 				CDE9DCFA1FAEC1EB005BBAFD /* GiphyURLConstructor.swift in Sources */,
 				CDE9DCF31FAEB96A005BBAFD /* GiphyMetadata.swift in Sources */,
@@ -650,6 +670,7 @@
 				CDE9DCE21FAEB543005BBAFD /* Webservice.swift in Sources */,
 				CDE9DCE91FAEB745005BBAFD /* Notifications+Application.swift in Sources */,
 				CDF7E1311FAEB3CE00674579 /* Giphy.swift in Sources */,
+				CD6A4DA71FB1D6AA007F7B81 /* MagnifyingGlassView.swift in Sources */,
 				CDE9DCF01FAEB94D005BBAFD /* GiphyPagination.swift in Sources */,
 				CDC4B5C11FB08FAA00D20E0D /* UIColor+Application.swift in Sources */,
 				CD2BA0901FB1541D001E5724 /* UITableView+Animations.swift in Sources */,
@@ -658,6 +679,7 @@
 				CD690EDB1FAF605E004364DF /* GiphyAutocompleteResponse.swift in Sources */,
 				CDE9DCE51FAEB61F005BBAFD /* Result.swift in Sources */,
 				CDE9DCDC1FAEB492005BBAFD /* GiphyImage.swift in Sources */,
+				CD5958BB1FB1FBB8005509B4 /* GiphyView.swift in Sources */,
 				CDE9DCDF1FAEB501005BBAFD /* NetworkActivityIndicatorManager.swift in Sources */,
 				CD690EE41FAF639E004364DF /* GiphyAutocompletionClient.swift in Sources */,
 				CD6A4DA21FB0A3B3007F7B81 /* UIAlertController+Error.swift in Sources */,

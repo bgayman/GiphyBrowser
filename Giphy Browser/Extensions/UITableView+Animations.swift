@@ -25,9 +25,9 @@ extension UITableView {
         let updatedIndexes = updated.flatMap{ oldArray.index(of: $0) }.map{ IndexPath(row: $0, section: 0) }
         
         self.beginUpdates()
-        self.reloadRows(at: updatedIndexes, with: .none)
-        self.deleteRows(at: removedIndexes, with: .top)
-        self.insertRows(at: insertedIndexes, with: .top)
+        self.reloadRows(at: updatedIndexes, with: .automatic)
+        self.deleteRows(at: removedIndexes, with: .automatic)
+        self.insertRows(at: insertedIndexes, with: .automatic)
         self.endUpdates()
     }
     
