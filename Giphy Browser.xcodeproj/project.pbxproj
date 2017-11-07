@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		9192D8C24A5E2D3579C1A025 /* Pods_Giphy_Browser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DCCFFCCDE2B96983D19B5D8 /* Pods_Giphy_Browser.framework */; };
 		C6AC642AF51AC4D15C8933DA /* Pods_Giphy_BrowserTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA73FCA952DA382A263967D /* Pods_Giphy_BrowserTests.framework */; };
+		CD2BA08F1FB153E5001E5724 /* UITableView+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2BA08E1FB153E5001E5724 /* UITableView+Animations.swift */; };
+		CD2BA0901FB1541D001E5724 /* UITableView+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2BA08E1FB153E5001E5724 /* UITableView+Animations.swift */; };
 		CD690ED41FAF3DD9004364DF /* GiphyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD690ED31FAF3DD9004364DF /* GiphyCollectionViewCell.swift */; };
 		CD690ED81FAF5FE7004364DF /* GiphyAutocomplete.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD690ED71FAF5FE7004364DF /* GiphyAutocomplete.swift */; };
 		CD690EDA1FAF605E004364DF /* GiphyAutocompleteResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD690ED91FAF605E004364DF /* GiphyAutocompleteResponse.swift */; };
@@ -26,6 +28,17 @@
 		CD6A4D9F1FB0A360007F7B81 /* ErrorHandleable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6A4D9D1FB0A360007F7B81 /* ErrorHandleable.swift */; };
 		CD6A4DA11FB0A3B3007F7B81 /* UIAlertController+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6A4DA01FB0A3B3007F7B81 /* UIAlertController+Error.swift */; };
 		CD6A4DA21FB0A3B3007F7B81 /* UIAlertController+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6A4DA01FB0A3B3007F7B81 /* UIAlertController+Error.swift */; };
+		CD8F9C7C1FB126B700E9BFF6 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8F9C7B1FB126B700E9BFF6 /* SearchViewController.swift */; };
+		CD8F9C7E1FB14CCC00E9BFF6 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8F9C7D1FB14CCC00E9BFF6 /* SearchViewModel.swift */; };
+		CD8F9C7F1FB14CCC00E9BFF6 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8F9C7D1FB14CCC00E9BFF6 /* SearchViewModel.swift */; };
+		CDB8A1761FB0DB040049012B /* SheetContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB8A1741FB0DAFE0049012B /* SheetContainerViewController.swift */; };
+		CDB8A1771FB0DB040049012B /* SheetContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB8A1741FB0DAFE0049012B /* SheetContainerViewController.swift */; };
+		CDB8A1781FB0DB0C0049012B /* SheetContainerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDB8A1751FB0DAFE0049012B /* SheetContainerViewController.xib */; };
+		CDB8A1791FB0DB0D0049012B /* SheetContainerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDB8A1751FB0DAFE0049012B /* SheetContainerViewController.xib */; };
+		CDB8A17C1FB0DBFC0049012B /* StoryboardInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB8A17B1FB0DBFC0049012B /* StoryboardInitializable.swift */; };
+		CDB8A17D1FB0DC120049012B /* StoryboardInitializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB8A17B1FB0DBFC0049012B /* StoryboardInitializable.swift */; };
+		CDB8A17F1FB0DC6B0049012B /* UIFont+Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB8A17E1FB0DC6B0049012B /* UIFont+Application.swift */; };
+		CDB8A1801FB0DC6B0049012B /* UIFont+Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB8A17E1FB0DC6B0049012B /* UIFont+Application.swift */; };
 		CDC4B5BE1FAFF4DF00D20E0D /* UICollectionView+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC4B5BD1FAFF4DF00D20E0D /* UICollectionView+Animations.swift */; };
 		CDC4B5C01FB08FAA00D20E0D /* UIColor+Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC4B5BF1FB08FAA00D20E0D /* UIColor+Application.swift */; };
 		CDC4B5C11FB08FAA00D20E0D /* UIColor+Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC4B5BF1FB08FAA00D20E0D /* UIColor+Application.swift */; };
@@ -86,6 +99,7 @@
 		2FA73FCA952DA382A263967D /* Pods_Giphy_BrowserTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Giphy_BrowserTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		42705E23CD568021299D0FC8 /* Pods-Giphy BrowserTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Giphy BrowserTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Giphy BrowserTests/Pods-Giphy BrowserTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A789927EDE8429FB20F251B8 /* Pods-Giphy BrowserTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Giphy BrowserTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Giphy BrowserTests/Pods-Giphy BrowserTests.release.xcconfig"; sourceTree = "<group>"; };
+		CD2BA08E1FB153E5001E5724 /* UITableView+Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Animations.swift"; sourceTree = "<group>"; };
 		CD690ED31FAF3DD9004364DF /* GiphyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiphyCollectionViewCell.swift; sourceTree = "<group>"; };
 		CD690ED71FAF5FE7004364DF /* GiphyAutocomplete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiphyAutocomplete.swift; sourceTree = "<group>"; };
 		CD690ED91FAF605E004364DF /* GiphyAutocompleteResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiphyAutocompleteResponse.swift; sourceTree = "<group>"; };
@@ -96,6 +110,12 @@
 		CD690EE91FAF8CD0004364DF /* GiphyUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiphyUser.swift; sourceTree = "<group>"; };
 		CD6A4D9D1FB0A360007F7B81 /* ErrorHandleable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandleable.swift; sourceTree = "<group>"; };
 		CD6A4DA01FB0A3B3007F7B81 /* UIAlertController+Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Error.swift"; sourceTree = "<group>"; };
+		CD8F9C7B1FB126B700E9BFF6 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		CD8F9C7D1FB14CCC00E9BFF6 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		CDB8A1741FB0DAFE0049012B /* SheetContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetContainerViewController.swift; sourceTree = "<group>"; };
+		CDB8A1751FB0DAFE0049012B /* SheetContainerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SheetContainerViewController.xib; sourceTree = "<group>"; };
+		CDB8A17B1FB0DBFC0049012B /* StoryboardInitializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardInitializable.swift; sourceTree = "<group>"; };
+		CDB8A17E1FB0DC6B0049012B /* UIFont+Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Application.swift"; sourceTree = "<group>"; };
 		CDC4B5BD1FAFF4DF00D20E0D /* UICollectionView+Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Animations.swift"; sourceTree = "<group>"; };
 		CDC4B5BF1FB08FAA00D20E0D /* UIColor+Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Application.swift"; sourceTree = "<group>"; };
 		CDE38EF81FAF93E200AE9EF8 /* GiphyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiphyViewModel.swift; sourceTree = "<group>"; };
@@ -197,14 +217,51 @@
 			isa = PBXGroup;
 			children = (
 				CD6A4D9D1FB0A360007F7B81 /* ErrorHandleable.swift */,
+				CDB8A17B1FB0DBFC0049012B /* StoryboardInitializable.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		CD8F9C801FB151F900E9BFF6 /* Search View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				CD8F9C7B1FB126B700E9BFF6 /* SearchViewController.swift */,
+			);
+			path = "Search View Controller";
+			sourceTree = "<group>";
+		};
+		CDB8A1721FB0DAC70049012B /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				CD690ED31FAF3DD9004364DF /* GiphyCollectionViewCell.swift */,
+				CDE38EFE1FAFE0B600AE9EF8 /* LoaderCollectionViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		CDB8A1731FB0DAD40049012B /* Giphy View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				CDF7E10D1FAEA9CD00674579 /* GiphyListViewController.swift */,
+				CDB8A1721FB0DAC70049012B /* Cells */,
+			);
+			path = "Giphy View Controller";
+			sourceTree = "<group>";
+		};
+		CDB8A17A1FB0DB180049012B /* Sheet Container View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				CDB8A1741FB0DAFE0049012B /* SheetContainerViewController.swift */,
+				CDB8A1751FB0DAFE0049012B /* SheetContainerViewController.xib */,
+			);
+			path = "Sheet Container View Controller";
 			sourceTree = "<group>";
 		};
 		CDC4B5C21FB0A2EC00D20E0D /* View Models */ = {
 			isa = PBXGroup;
 			children = (
 				CDE38EF81FAF93E200AE9EF8 /* GiphyViewModel.swift */,
+				CD8F9C7D1FB14CCC00E9BFF6 /* SearchViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -212,9 +269,9 @@
 		CDC4B5C31FB0A2FB00D20E0D /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				CDF7E10D1FAEA9CD00674579 /* GiphyListViewController.swift */,
-				CD690ED31FAF3DD9004364DF /* GiphyCollectionViewCell.swift */,
-				CDE38EFE1FAFE0B600AE9EF8 /* LoaderCollectionViewCell.swift */,
+				CDB8A17A1FB0DB180049012B /* Sheet Container View Controller */,
+				CDB8A1731FB0DAD40049012B /* Giphy View Controller */,
+				CD8F9C801FB151F900E9BFF6 /* Search View Controller */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -246,8 +303,10 @@
 			children = (
 				CDE9DCE71FAEB745005BBAFD /* Notifications+Application.swift */,
 				CDC4B5BF1FB08FAA00D20E0D /* UIColor+Application.swift */,
+				CDB8A17E1FB0DC6B0049012B /* UIFont+Application.swift */,
 				CDC4B5BD1FAFF4DF00D20E0D /* UICollectionView+Animations.swift */,
 				CD6A4DA01FB0A3B3007F7B81 /* UIAlertController+Error.swift */,
+				CD2BA08E1FB153E5001E5724 /* UITableView+Animations.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -276,6 +335,7 @@
 			isa = PBXGroup;
 			children = (
 				CDF7E10B1FAEA9CD00674579 /* AppDelegate.swift */,
+				CDF7E10F1FAEA9CD00674579 /* Main.storyboard */,
 				CDC4B5C31FB0A2FB00D20E0D /* Views */,
 				CDC4B5C21FB0A2EC00D20E0D /* View Models */,
 				CDF7E1331FAEB40000674579 /* Model */,
@@ -283,7 +343,6 @@
 				CD6A4DA31FB0A405007F7B81 /* Protocols */,
 				CDE9DCEA1FAEB760005BBAFD /* Extensions */,
 				CDC4B5C41FB0A30F00D20E0D /* Misc */,
-				CDF7E10F1FAEA9CD00674579 /* Main.storyboard */,
 				CDF7E1121FAEA9CD00674579 /* Assets.xcassets */,
 				CDF7E1141FAEA9CD00674579 /* LaunchScreen.storyboard */,
 				CDF7E1171FAEA9CD00674579 /* Info.plist */,
@@ -402,6 +461,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDB8A1781FB0DB0C0049012B /* SheetContainerViewController.xib in Resources */,
 				CDF7E1161FAEA9CD00674579 /* LaunchScreen.storyboard in Resources */,
 				CDF7E1131FAEA9CD00674579 /* Assets.xcassets in Resources */,
 				CDF7E1111FAEA9CD00674579 /* Main.storyboard in Resources */,
@@ -413,6 +473,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CDE9DCF51FAEBA1A005BBAFD /* GiphyTestData.json in Resources */,
+				CDB8A1791FB0DB0D0049012B /* SheetContainerViewController.xib in Resources */,
 				CD690EE61FAF64C3004364DF /* GiphyAutocompleteTestData.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -435,7 +496,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		8C06BD5105C2A6CB31DD8AC6 /* [CP] Embed Pods Frameworks */ = {
@@ -518,7 +579,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -528,6 +589,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD8F9C7E1FB14CCC00E9BFF6 /* SearchViewModel.swift in Sources */,
 				CD690ED41FAF3DD9004364DF /* GiphyCollectionViewCell.swift in Sources */,
 				CDE38EFC1FAFD91A00AE9EF8 /* ColorArt.swift in Sources */,
 				CD690EEA1FAF8CD0004364DF /* GiphyUser.swift in Sources */,
@@ -537,6 +599,8 @@
 				CDE38EF91FAF93E200AE9EF8 /* GiphyViewModel.swift in Sources */,
 				CDE9DCE81FAEB745005BBAFD /* Notifications+Application.swift in Sources */,
 				CDE9DCEC1FAEB79C005BBAFD /* GiphyResponse.swift in Sources */,
+				CDB8A1761FB0DB040049012B /* SheetContainerViewController.swift in Sources */,
+				CD8F9C7C1FB126B700E9BFF6 /* SearchViewController.swift in Sources */,
 				CDE9DCE11FAEB543005BBAFD /* Webservice.swift in Sources */,
 				CDE9DCF71FAEBAC2005BBAFD /* GiphySearchClient.swift in Sources */,
 				CD6A4DA11FB0A3B3007F7B81 /* UIAlertController+Error.swift in Sources */,
@@ -545,6 +609,7 @@
 				CDE9DCEF1FAEB94D005BBAFD /* GiphyPagination.swift in Sources */,
 				CDF7E12E1FAEB29C00674579 /* GiphyImageType.swift in Sources */,
 				CD690EDE1FAF60FF004364DF /* GiphyAutocompleteResult.swift in Sources */,
+				CD2BA08F1FB153E5001E5724 /* UITableView+Animations.swift in Sources */,
 				CDE38EFF1FAFE0B600AE9EF8 /* LoaderCollectionViewCell.swift in Sources */,
 				CDF7E10E1FAEA9CD00674579 /* GiphyListViewController.swift in Sources */,
 				CD690EDA1FAF605E004364DF /* GiphyAutocompleteResponse.swift in Sources */,
@@ -553,8 +618,10 @@
 				CDC4B5C01FB08FAA00D20E0D /* UIColor+Application.swift in Sources */,
 				CDF7E1301FAEB2B800674579 /* GiphyImage.swift in Sources */,
 				CDF7E10C1FAEA9CD00674579 /* AppDelegate.swift in Sources */,
+				CDB8A17C1FB0DBFC0049012B /* StoryboardInitializable.swift in Sources */,
 				CD690EE31FAF639E004364DF /* GiphyAutocompletionClient.swift in Sources */,
 				CDE9DCE41FAEB61F005BBAFD /* Result.swift in Sources */,
+				CDB8A17F1FB0DC6B0049012B /* UIFont+Application.swift in Sources */,
 				CDE9DCDE1FAEB501005BBAFD /* NetworkActivityIndicatorManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -566,7 +633,10 @@
 				CDE9DCFD1FAEC214005BBAFD /* GiphySearchClient+TestData.swift in Sources */,
 				CDE38EFD1FAFDAF400AE9EF8 /* ColorArt.swift in Sources */,
 				CD690EEB1FAF8D98004364DF /* GiphyUser.swift in Sources */,
+				CDB8A1771FB0DB040049012B /* SheetContainerViewController.swift in Sources */,
 				CDE9DD001FAF3821005BBAFD /* GiphyTrendingClient.swift in Sources */,
+				CDB8A1801FB0DC6B0049012B /* UIFont+Application.swift in Sources */,
+				CD8F9C7F1FB14CCC00E9BFF6 /* SearchViewModel.swift in Sources */,
 				CDF7E1321FAEB3D200674579 /* GiphyImageType.swift in Sources */,
 				CDE38EFA1FAF958A00AE9EF8 /* GiphyViewModel.swift in Sources */,
 				CDF7E1211FAEA9CD00674579 /* Giphy_BrowserTests.swift in Sources */,
@@ -576,11 +646,13 @@
 				CD690EE81FAF64FB004364DF /* GiphyAutocompletionClient+TestData.swift in Sources */,
 				CD6A4D9F1FB0A360007F7B81 /* ErrorHandleable.swift in Sources */,
 				CDE9DCFB1FAEC1EF005BBAFD /* GiphySearchClient.swift in Sources */,
+				CDB8A17D1FB0DC120049012B /* StoryboardInitializable.swift in Sources */,
 				CDE9DCE21FAEB543005BBAFD /* Webservice.swift in Sources */,
 				CDE9DCE91FAEB745005BBAFD /* Notifications+Application.swift in Sources */,
 				CDF7E1311FAEB3CE00674579 /* Giphy.swift in Sources */,
 				CDE9DCF01FAEB94D005BBAFD /* GiphyPagination.swift in Sources */,
 				CDC4B5C11FB08FAA00D20E0D /* UIColor+Application.swift in Sources */,
+				CD2BA0901FB1541D001E5724 /* UITableView+Animations.swift in Sources */,
 				CDE9DCED1FAEB79C005BBAFD /* GiphyResponse.swift in Sources */,
 				CD690EDC1FAF6062004364DF /* GiphyAutocomplete.swift in Sources */,
 				CD690EDB1FAF605E004364DF /* GiphyAutocompleteResponse.swift in Sources */,

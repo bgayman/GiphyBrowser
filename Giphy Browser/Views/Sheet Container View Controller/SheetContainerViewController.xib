@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13526" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="ipad10_5" orientation="landscape">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13524"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SheetContainerViewController" customModule="Sheet" customModuleProvider="target">
+            <connections>
+                <outlet property="detailContainerView" destination="V5S-cp-nMT" id="00p-RP-Iel"/>
+                <outlet property="detailContainerViewBottomConstraint" destination="hSf-hf-RKc" id="C2z-LM-1cR"/>
+                <outlet property="handleView" destination="jsM-0a-EsW" id="FTR-g0-Tgi"/>
+                <outlet property="masterContainerView" destination="Y3v-cF-IXu" id="Ezk-aZ-cCc"/>
+                <outlet property="overlayView" destination="hNP-7X-dy6" id="8LC-Wn-HNY"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y3v-cF-IXu">
+                    <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hNP-7X-dy6">
+                    <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.25" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <gestureRecognizers/>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="eeq-g3-Y1S" appends="YES" id="Hz6-gx-135"/>
+                    </connections>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V5S-cp-nMT">
+                    <rect key="frame" x="16" y="770" width="375" height="834"/>
+                    <subviews>
+                        <view alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jsM-0a-EsW">
+                            <rect key="frame" x="169.5" y="4" width="35" height="4"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="35" id="Bpd-Mt-s8H"/>
+                                <constraint firstAttribute="height" constant="4" id="rIa-Zy-8iY"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <gestureRecognizers/>
+                    <constraints>
+                        <constraint firstItem="jsM-0a-EsW" firstAttribute="top" secondItem="V5S-cp-nMT" secondAttribute="top" constant="4" id="7gm-w2-36A"/>
+                        <constraint firstItem="jsM-0a-EsW" firstAttribute="centerX" secondItem="V5S-cp-nMT" secondAttribute="centerX" id="AHS-5V-FIC"/>
+                        <constraint firstAttribute="width" constant="375" id="W20-EJ-dD4"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="W20-EJ-dD4"/>
+                        </mask>
+                    </variation>
+                    <variation key="heightClass=regular-widthClass=regular">
+                        <mask key="constraints">
+                            <include reference="W20-EJ-dD4"/>
+                        </mask>
+                    </variation>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="7rA-5d-RPK" appends="YES" id="T91-H1-XB3"/>
+                    </connections>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="Y3v-cF-IXu" secondAttribute="bottom" id="AYh-47-Pxh"/>
+                <constraint firstItem="hNP-7X-dy6" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="Dbd-7L-lE2"/>
+                <constraint firstItem="hNP-7X-dy6" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="FkS-3J-LbT"/>
+                <constraint firstAttribute="trailing" secondItem="V5S-cp-nMT" secondAttribute="trailing" id="IyX-mm-dO3"/>
+                <constraint firstItem="Y3v-cF-IXu" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="N8I-OU-be6"/>
+                <constraint firstItem="hNP-7X-dy6" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="OZM-Sy-yYL"/>
+                <constraint firstItem="V5S-cp-nMT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Pru-j3-Y5a"/>
+                <constraint firstItem="V5S-cp-nMT" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="STw-aY-SMz"/>
+                <constraint firstItem="V5S-cp-nMT" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" id="Z1j-yx-WNG"/>
+                <constraint firstItem="Y3v-cF-IXu" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ehH-Pu-sRr"/>
+                <constraint firstAttribute="bottom" secondItem="V5S-cp-nMT" secondAttribute="top" constant="64" id="hSf-hf-RKc"/>
+                <constraint firstItem="hNP-7X-dy6" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" id="jut-dN-hYH"/>
+                <constraint firstAttribute="trailing" secondItem="Y3v-cF-IXu" secondAttribute="trailing" id="sa1-0h-9Mo"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="STw-aY-SMz"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=regular-widthClass=regular">
+                <mask key="constraints">
+                    <exclude reference="IyX-mm-dO3"/>
+                    <exclude reference="Pru-j3-Y5a"/>
+                    <include reference="STw-aY-SMz"/>
+                </mask>
+            </variation>
+        </view>
+        <panGestureRecognizer minimumNumberOfTouches="1" id="7rA-5d-RPK">
+            <connections>
+                <action selector="handlePan:" destination="-1" id="mj2-ZF-WVc"/>
+            </connections>
+        </panGestureRecognizer>
+        <tapGestureRecognizer id="eeq-g3-Y1S">
+            <connections>
+                <action selector="didTapOverlayView:" destination="-1" id="73g-Hv-6AZ"/>
+            </connections>
+        </tapGestureRecognizer>
+    </objects>
+</document>

@@ -18,3 +18,16 @@ struct GiphyAutocomplete: Codable {
         case nameEncoded = "name_encoded"
     }
 }
+
+extension GiphyAutocomplete: Equatable {
+    static func == (lhs: GiphyAutocomplete, rhs: GiphyAutocomplete) -> Bool {
+        return lhs.name == rhs.name && lhs.nameEncoded == rhs.nameEncoded
+    }
+}
+
+extension GiphyAutocomplete: Hashable {
+    
+    var hashValue: Int {
+        return name.hashValue ^ nameEncoded.hashValue
+    }
+}

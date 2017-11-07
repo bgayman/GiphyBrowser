@@ -15,7 +15,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        let listViewController = GiphyListViewController.makeFromStoryboard()
+        let navigationController = UINavigationController(rootViewController: listViewController)
+        let searchViewController = SearchViewController.makeFromStoryboard()
+        let searchNavigationController = UINavigationController(rootViewController: searchViewController)
+        window?.rootViewController = SheetContainerViewController(masterViewController: navigationController, detailViewController: searchNavigationController)
         return true
     }
 

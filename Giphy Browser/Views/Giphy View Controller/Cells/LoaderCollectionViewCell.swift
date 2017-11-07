@@ -8,6 +8,9 @@
 
 import UIKit
 
+/// A collection view cell that holds a activity indicator
 class LoaderCollectionViewCell: UICollectionViewCell {
+    
+    // MARK: - Outlets
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 }

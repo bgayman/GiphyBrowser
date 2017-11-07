@@ -9,6 +9,7 @@
 import UIKit
 
 extension UICollectionView {
+    
     func animateUpdate<T: Hashable>(oldDataSource: [T], newDataSource: [T]) {
         let oldArray = oldDataSource
         let oldSet = Set(oldArray)
@@ -28,6 +29,26 @@ extension UICollectionView {
             self.deleteItems(at: removedIndexes)
             self.insertItems(at: insertedIndexes)
         })
+    }
+    
+    func animateInitialLoad(sectionItems: [(section: Int, itemCount: Int)]) {
+        let insertIndexes = self.indexPaths(for: sectionItems)
+        self.insertItems(at: insertIndexes)
+    }
+    
+    func animateRemovalOfAllItems(sectionItems: [(section: Int, itemCount: Int)]) {
+        let deleteIndexes = self.indexPaths(for: sectionItems)
+        self.deleteItems(at: deleteIndexes)
+    }
+    
+    private func indexPaths(for sectionItems: [(section: Int, itemCount: Int)]) -> [IndexPath] {
+        var insertIndexes = [IndexPath]()
+        for sectionItem in sectionItems {
+            for i in 0 ..< sectionItem.1 {
+                insertIndexes.append(IndexPath(item: i, section: sectionItem.0))
+            }
+        }
+        return insertIndexes
     }
     
 }

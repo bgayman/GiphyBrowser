@@ -8,9 +8,13 @@
 
 import UIKit
 
+/// Collection view cell that displays a GIF
 class GiphyCollectionViewCell: UICollectionViewCell {
+    
+    // MARK: - Outlets
     @IBOutlet weak var imageView: UIImageView!
     
+    // MARK: - Properties
     var giphy: Giphy? {
         didSet {
             imageView.backgroundColor = nil

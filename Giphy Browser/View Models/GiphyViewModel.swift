@@ -11,12 +11,14 @@ import CoreGraphics
 import SDWebImage
 import AVFoundation
 
+/// Protocol that informs delegate of changes in view model state
 protocol GiphyViewModelDelegate: class {
     func giphyViewModel(_ viewModel: GiphyViewModel, didUpdate giphies: [Giphy])
     func giphyViewModel(_ viewModel: GiphyViewModel, didUpdate colorArt: ColorArt?, for giphy: Giphy)
     func giphyViewModel(_ viewModel: GiphyViewModel, updateFailedWith error: Error)
 }
 
+/// View model that handles logic of fetching and displaying a collection of GIFs
 final class GiphyViewModel: NSObject {
     
     // MARK: - Types
@@ -155,7 +157,7 @@ final class GiphyViewModel: NSObject {
         let width = CGFloat(image?.width ?? 0)
         let height = CGFloat(image?.height ?? 0)
         let size = CGSize(width: width, height: height)
-        let maxSize = CGSize(width: maxWidth, height: maxHeight)
+        let maxSize = CGSize(width: min(425, maxWidth), height: min(700, maxHeight))
         let rect = AVMakeRect(aspectRatio: size, insideRect: CGRect(origin: .zero, size: maxSize))
         return rect.size
     }
@@ -188,6 +190,7 @@ final class GiphyViewModel: NSObject {
     }
 }
 
+// MARK: - GiphyViewModel.ContentType + Equatable
 extension GiphyViewModel.ContentType: Equatable {
     static func == (lhs: GiphyViewModel.ContentType, rhs: GiphyViewModel.ContentType) -> Bool {
         switch (lhs, rhs) {
@@ -201,6 +204,7 @@ extension GiphyViewModel.ContentType: Equatable {
     }
 }
 
+// MARK: - GiphyViewModel.CellContentType + Equatable
 extension GiphyViewModel.CellContentType: Equatable {
     static func == (lhs: GiphyViewModel.CellContentType, rhs: GiphyViewModel.CellContentType) -> Bool {
         switch (lhs, rhs) {
@@ -214,6 +218,7 @@ extension GiphyViewModel.CellContentType: Equatable {
     }
 }
 
+// MARK: - GiphyViewModel.CellContentType + Hashable
 extension GiphyViewModel.CellContentType: Hashable {
     var hashValue: Int {
         switch self {

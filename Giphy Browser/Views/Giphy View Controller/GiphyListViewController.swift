@@ -9,13 +9,25 @@
 import UIKit
 import SDWebImage
 
-class GiphyListViewController: UIViewController {
+/// A view controller that displays GIFs in a scrolling list
+final class GiphyListViewController: UIViewController, StoryboardInitializable {
     
     // MARK: - Outlets
     @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var statusBarOverlayView: UIView!
     
     // MARK: - Properties
-    var viewModel = GiphyViewModel(contentType: .search("Lion"))
+    private var previousScrollViewYOffset: CGFloat = 0.0
+    var viewModel = GiphyViewModel(contentType: .trending) {
+        willSet {
+            collectionView.animateRemovalOfAllItems(sectionItems: [(0, viewModel.numberOfItemsInSection(0))])
+        }
+        
+        didSet {
+            viewModel.delegate = self
+            refresh.beginRefreshing()
+        }
+    }
     
     lazy var refresh: UIRefreshControl = {
        let refresh = UIRefreshControl()
@@ -30,9 +42,43 @@ class GiphyListViewController: UIViewController {
         setupUI()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if traitCollection.horizontalSizeClass == .regular && traitCollection.verticalSizeClass == .regular {
+            if #available(iOS 11.0, *) {
+                navigationController?.navigationBar.prefersLargeTitles = false
+                additionalSafeAreaInsets = .zero
+            }
+        }
+        else {
+            if #available(iOS 11.0, *) {
+                additionalSafeAreaInsets = UIEdgeInsets(top: 0, left: 0, bottom: self.sheetContainerViewController?.bottomConstraintStartView ?? 0, right: 0)
+            }
+            else {
+                collectionView.contentInset = UIEdgeInsets(top: collectionView.contentInset.top, left: collectionView.contentInset.left, bottom: self.sheetContainerViewController?.bottomConstraintStartView ?? 0, right: collectionView.contentInset.right)
+            }
+        }
+    }
+    
     // MARK: - Setup
     private func setupUI() {
         view.backgroundColor = UIColor.appBeige
+        statusBarOverlayView.backgroundColor = UIColor.appBeige.withAlphaComponent(0.75)
+        
+        title = viewModel.title
+        
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+            navigationController?.navigationItem.largeTitleDisplayMode = .always
+            navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedStringKey.font: UIFont.appFont(weight: .heavy, pointSize: 35.0)]
+        }
+        else {
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font: UIFont.appFont(weight: .medium, pointSize: 23.0)]
+        }
+        
+        navigationController?.hidesBarsOnSwipe = true
+        navigationController?.navigationBar.barTintColor = UIColor.appBeige
+        navigationController?.navigationBar.tintColor = UIColor.appRed
         
         if #available(iOS 10.0, *) {
             collectionView.refreshControl = refresh
@@ -87,12 +133,28 @@ extension GiphyListViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: - UIScrollViewDelegate
+extension GiphyListViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let scrollSpeed = scrollView.contentOffset.y - previousScrollViewYOffset
+        previousScrollViewYOffset = scrollView.contentOffset.y
+        if scrollSpeed < 0 {
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
+        }
+    }
+}
+
 // MARK: - GiphyViewModelDelegate
 extension GiphyListViewController: GiphyViewModelDelegate, ErrorHandleable {
     
     func giphyViewModel(_ viewModel: GiphyViewModel, didUpdate giphies: [Giphy]) {
         refresh.endRefreshing()
-        collectionView.reloadData()
+        if collectionView.numberOfItems(inSection: 0) == 0 {
+            collectionView.animateInitialLoad(sectionItems: [(0, viewModel.numberOfItemsInSection(0))])
+        }
+        else {
+            collectionView.reloadData()
+        }
     }
     
     func giphyViewModel(_ viewModel: GiphyViewModel, updateFailedWith error: Error) {
@@ -105,5 +167,15 @@ extension GiphyListViewController: GiphyViewModelDelegate, ErrorHandleable {
         guard let cell = giphyCells.first(where: { $0.giphy == giphy }) else { return }
         cell.imageView.backgroundColor = colorArt?.bestColor
     }
+}
+
+extension GiphyListViewController: SearchViewControllerDelegate {
+    
+    func searchViewController(_ viewController: SearchViewController, didFinishSearchingWith searchString: String) {
+        viewModel = GiphyViewModel(contentType: .search(searchString))
+        sheetContainerViewController?.animateDown()
+    }
+    
+    
 }
 
