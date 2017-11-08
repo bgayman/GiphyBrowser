@@ -7,19 +7,24 @@
 //
 
 import UIKit
+import SDWebImage
 
 /// Collection view cell that displays a GIF
 class GiphyCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Outlets
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var imageView: FLAnimatedImageView!
     
     // MARK: - Properties
     var giphy: Giphy? {
         didSet {
-            imageView.backgroundColor = nil
             let url = giphy?.images[GiphyViewModel.listImageType.rawValue]?.url
             imageView.sd_setImage(with: url)
         }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.backgroundColor = nil
     }
 }

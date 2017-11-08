@@ -86,6 +86,7 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
         let itemBehavior = UIDynamicItemBehavior(items: items)
         itemBehavior.allowsRotation = true
         itemBehavior.elasticity = 0.4
+        itemBehavior.angularResistance = 5
         return itemBehavior
     }()
     
@@ -169,7 +170,7 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
         emptyStateLabel.textColor = .lightGray
         emptyStateLabel.numberOfLines = 0
         emptyStateLabel.translatesAutoresizingMaskIntoConstraints = true
-        emptyStateLabel.center = CGPoint(x: view.bounds.midX, y: view.bounds.maxY - 50.0)
+        emptyStateLabel.center = CGPoint(x: emptyStateView.bounds.midX, y: emptyStateView.bounds.maxY - 100.0)
         emptyStateView.addSubview(emptyStateLabel)
         
         arrange(giphyViews)

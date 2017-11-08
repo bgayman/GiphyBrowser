@@ -293,8 +293,7 @@ extension UIColor
         (r, g, b, a) = (0, 0, 0, 0)
         self.getRed(&r, green: &g, blue: &b, alpha: &a)
         let lum = 0.2126 * r + 0.7152 * g + 0.0722 * b
-        if lum < 0.5 { return true }
-        return false
+        return  lum < 0.47 ? true : false
     }
     
     var isBlackOrWhite: Bool

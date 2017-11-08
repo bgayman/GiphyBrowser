@@ -31,7 +31,7 @@ extension UICollectionView {
         })
     }
     
-    func animateInitialLoad(sectionItems: [(section: Int, itemCount: Int)]) {
+    public func animateInitialPopulation(sectionItems: [(section: Int, itemCount: Int)]) {
         let insertIndexes = self.indexPaths(for: sectionItems)
         self.insertItems(at: insertIndexes)
     }

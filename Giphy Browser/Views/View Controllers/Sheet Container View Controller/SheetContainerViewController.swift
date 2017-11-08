@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 /// Container view controller that allows a master view controller to slide over a detail view controller
 class SheetContainerViewController: UIViewController {
@@ -45,6 +46,10 @@ class SheetContainerViewController: UIViewController {
             topInset = topLayoutGuide.length
         }
         return topInset + 20.0
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
     }
     
     // MARK: - Lifecycle
@@ -166,6 +171,23 @@ class SheetContainerViewController: UIViewController {
             }
         }
     }
+}
+
+// MARK: - MagicMoveFromViewControllerDataSource
+extension SheetContainerViewController: MagicMoveFromViewControllerDataSource {
+    
+    var fromMagicView: FLAnimatedImageView? {
+        guard let navController = masterViewController as? UINavigationController,
+              let dataSource = navController.viewControllers.first as? MagicMoveFromViewControllerDataSource else { return nil }
+        return dataSource.fromMagicView
+    }
+    
+    var fromURL: URL? {
+        guard let navController = masterViewController as? UINavigationController,
+            let dataSource = navController.viewControllers.first as? MagicMoveFromViewControllerDataSource else { return nil }
+        return dataSource.fromURL
+    }
+    
 }
 
 // MARK: - UIViewController+SheetContainerViewController

@@ -15,15 +15,19 @@ final class GiphyListViewController: UIViewController, StoryboardInitializable {
     // MARK: - Outlets
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var statusBarOverlayView: UIView!
+    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
     
     // MARK: - Properties
     private var previousScrollViewYOffset: CGFloat = 0.0
+    private var selectedImageView: FLAnimatedImageView?
+    private var selectedURL: URL?
     var viewModel = GiphyViewModel(contentType: .trending) {
         didSet {
             viewModel.delegate = self
             title = viewModel.title
             collectionView?.reloadData()
             refresh.beginRefreshing()
+            navigationItem.rightBarButtonItem = viewModel.contentType != .trending ? trendingBarButtonItem : nil
         }
     }
     
@@ -31,6 +35,11 @@ final class GiphyListViewController: UIViewController, StoryboardInitializable {
        let refresh = UIRefreshControl()
         refresh.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
         return refresh
+    }()
+    
+    lazy var trendingBarButtonItem: UIBarButtonItem = {
+        let trendingBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icTrending"), style: .plain, target: self, action: #selector(self.didPressTrending(_:)))
+        return trendingBarButtonItem
     }()
     
     // MARK: - Lifecycle
@@ -65,9 +74,6 @@ final class GiphyListViewController: UIViewController, StoryboardInitializable {
         
         title = viewModel.title
         
-        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-        navigationController?.navigationItem.titleView = activityIndicator
-        activityIndicator.startAnimating()
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
             navigationController?.navigationItem.largeTitleDisplayMode = .always
@@ -76,7 +82,6 @@ final class GiphyListViewController: UIViewController, StoryboardInitializable {
         else {
             navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font: UIFont.appFont(weight: .medium, pointSize: 23.0)]
         }
-        
         navigationController?.hidesBarsOnSwipe = true
         navigationController?.navigationBar.barTintColor = UIColor.appBeige
         navigationController?.navigationBar.tintColor = UIColor.appRed
@@ -86,12 +91,23 @@ final class GiphyListViewController: UIViewController, StoryboardInitializable {
         } else {
             collectionView.addSubview(refresh)
         }
-//        refresh.beginRefreshing()
+        
+        navigationItem.rightBarButtonItem = (viewModel.contentType != .trending) ? trendingBarButtonItem : nil
+        
+        activityIndicator.startAnimating()
+        
+        if traitCollection.forceTouchCapability == .available {
+            registerForPreviewing(with: self, sourceView: collectionView)
+        }
     }
     
     // MARK: - Actions
     @objc func refresh(_ sender: UIRefreshControl) {
         viewModel.refresh()
+    }
+    
+    @objc func didPressTrending(_ sender: UIBarButtonItem) {
+        viewModel = GiphyViewModel(contentType: .trending)
     }
 }
 
@@ -124,6 +140,15 @@ extension GiphyListViewController: UICollectionViewDataSource, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         viewModel.requestNextPageIfNeeded(for: indexPath)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard case let .giphy(giphy) = viewModel.cellContent(for: indexPath),
+              let cell = collectionView.cellForItem(at: indexPath) as? GiphyCollectionViewCell,
+              let giphyDetailViewController = viewModel.viewController(for: indexPath) else { return }
+        selectedURL = giphy.images[GiphyViewModel.listImageType.rawValue]?.url
+        selectedImageView = cell.imageView
+        sheetContainerViewController?.present(giphyDetailViewController, animated: true)
+    }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -145,13 +170,27 @@ extension GiphyListViewController: UIScrollViewDelegate {
     }
 }
 
+// MARK: - MagicMoveFromViewControllerDataSource
+extension GiphyListViewController: MagicMoveFromViewControllerDataSource {
+    
+    var fromMagicView: FLAnimatedImageView? {
+        return selectedImageView
+    }
+    
+    var fromURL: URL? {
+        return selectedURL
+    }
+
+}
+
 // MARK: - GiphyViewModelDelegate
 extension GiphyListViewController: GiphyViewModelDelegate, ErrorHandleable {
     
     func giphyViewModel(_ viewModel: GiphyViewModel, didUpdate giphies: [Giphy]) {
+        activityIndicator.stopAnimating()
         refresh.endRefreshing()
         if collectionView.numberOfItems(inSection: 0) == 0 {
-            collectionView.animateInitialLoad(sectionItems: [(0, viewModel.numberOfItemsInSection(0))])
+            collectionView.animateInitialPopulation(sectionItems: [(0, viewModel.numberOfItemsInSection(0))])
         }
         else {
             collectionView.reloadData()
@@ -159,19 +198,18 @@ extension GiphyListViewController: GiphyViewModelDelegate, ErrorHandleable {
     }
     
     func giphyViewModel(_ viewModel: GiphyViewModel, updateFailedWith error: Error) {
-        navigationController?.navigationItem.titleView = nil
         refresh.endRefreshing()
         handle(error)
     }
     
     func giphyViewModel(_ viewModel: GiphyViewModel, didUpdate colorArt: ColorArt?, for giphy: Giphy) {
-        navigationController?.navigationItem.titleView = nil
         let giphyCells = collectionView.visibleCells.flatMap { $0 as? GiphyCollectionViewCell }
         guard let cell = giphyCells.first(where: { $0.giphy == giphy }) else { return }
         cell.imageView.backgroundColor = colorArt?.bestColor
     }
 }
 
+// MARK: - SearchViewControllerDelegate
 extension GiphyListViewController: SearchViewControllerDelegate {
     
     func searchViewController(_ viewController: SearchViewController, didFinishSearchingWith searchString: String) {
@@ -179,6 +217,28 @@ extension GiphyListViewController: SearchViewControllerDelegate {
         sheetContainerViewController?.animateDown()
     }
     
+}
+
+// MARK: - UIViewControllerPreviewingDelegate
+extension GiphyListViewController: UIViewControllerPreviewingDelegate {
     
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        
+        guard let indexPath = collectionView.indexPathForItem(at: location),
+              let giphyListViewController = viewModel.viewController(for: indexPath),
+              case let .giphy(giphy) = viewModel.cellContent(for: indexPath),
+              let cell = collectionView.cellForItem(at: indexPath) as? GiphyCollectionViewCell else { return nil }
+        
+        selectedURL = giphy.images[GiphyViewModel.listImageType.rawValue]?.url
+        selectedImageView = cell.imageView
+        let rect = collectionView.layoutAttributesForItem(at: indexPath)?.frame ?? .zero
+        previewingContext.sourceRect = rect
+        giphyListViewController.preferredContentSize = viewModel.sizeForItem(at: indexPath, maxWidth: sheetContainerViewController?.view.bounds.width ?? 0, maxHeight: sheetContainerViewController?.view.bounds.height ?? 0)
+        return giphyListViewController
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        sheetContainerViewController?.present(viewControllerToCommit, animated: true)
+    }
 }
 

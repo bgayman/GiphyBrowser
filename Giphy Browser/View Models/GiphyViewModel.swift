@@ -161,6 +161,17 @@ final class GiphyViewModel: NSObject {
         return rect.size
     }
     
+    func viewController(for indexPath: IndexPath) -> GiphyDetailViewController? {
+        guard isLoadingIndexPath(indexPath) == false else { return nil }
+        let giphy = giphies[indexPath.item]
+        let colorArt = self.colorArt(for: indexPath)
+        let giphyDetailViewController = GiphyDetailViewController(giphy: giphy, colorArt: colorArt)
+        giphyDetailViewController.modalPresentationCapturesStatusBarAppearance = true
+        giphyDetailViewController.modalPresentationStyle = .custom
+        giphyDetailViewController.transitioningDelegate = giphyDetailViewController
+        return giphyDetailViewController
+    }
+    
     // MARK: - Helpers
     private func isLoadingIndexPath(_ indexPath: IndexPath) -> Bool {
         guard shouldShowBottomLoadingCell else { return  false }
@@ -173,7 +184,7 @@ final class GiphyViewModel: NSObject {
             SDWebImageManager.shared().loadImage(with: $0, options: [], progress: nil)
             { (image, _, _, _, _, url) in
                 guard let image = image, let url = url  else { return }
-                ColorArt.processImage(image, scaledToSize: image.size, withThreshold: 15) { (colorArt) in
+                ColorArt.processImage(image, scaledToSize: image.size, withThreshold: 8) { (colorArt) in
                     self.colors[url] = colorArt
                     guard let giphy = response.giphies.first(where: { $0.images[GiphyViewModel.stillPreviewType.rawValue]?.url == url }) else { return }
                     self.delegate?.giphyViewModel(self, didUpdate: colorArt, for: giphy)
