@@ -60,5 +60,10 @@ final class SearchViewModel: NSObject {
     func autocomplete(for indexPath: IndexPath) -> GiphyAutocomplete {
         return autocompletes[indexPath.row]
     }
+    
+    // MARK: - Test Helpers
+    func supplyTestData(response: GiphyAutocompleteResponse) {
+        autocompletes = response.result.results
+    }
 }
 

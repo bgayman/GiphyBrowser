@@ -22,7 +22,7 @@ final class GiphyListViewController: UIViewController, StoryboardInitializable {
         didSet {
             viewModel.delegate = self
             title = viewModel.title
-            collectionView.reloadData()
+            collectionView?.reloadData()
             refresh.beginRefreshing()
         }
     }

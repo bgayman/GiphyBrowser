@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		9192D8C24A5E2D3579C1A025 /* Pods_Giphy_Browser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DCCFFCCDE2B96983D19B5D8 /* Pods_Giphy_Browser.framework */; };
 		C6AC642AF51AC4D15C8933DA /* Pods_Giphy_BrowserTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FA73FCA952DA382A263967D /* Pods_Giphy_BrowserTests.framework */; };
+		CD1F30281FB24FF60021AE09 /* GiphyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF7E10D1FAEA9CD00674579 /* GiphyListViewController.swift */; };
+		CD1F30291FB25ECD0021AE09 /* GiphyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD690ED31FAF3DD9004364DF /* GiphyCollectionViewCell.swift */; };
+		CD1F302A1FB25ED50021AE09 /* LoaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE38EFE1FAFE0B600AE9EF8 /* LoaderCollectionViewCell.swift */; };
 		CD2BA08F1FB153E5001E5724 /* UITableView+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2BA08E1FB153E5001E5724 /* UITableView+Animations.swift */; };
 		CD2BA0901FB1541D001E5724 /* UITableView+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2BA08E1FB153E5001E5724 /* UITableView+Animations.swift */; };
 		CD5958BA1FB1FB63005509B4 /* GiphyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5958B91FB1FB63005509B4 /* GiphyView.swift */; };
@@ -513,7 +516,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		8C06BD5105C2A6CB31DD8AC6 /* [CP] Embed Pods Frameworks */ = {
@@ -596,7 +599,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -649,10 +652,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD1F30291FB25ECD0021AE09 /* GiphyCollectionViewCell.swift in Sources */,
 				CDE9DCFD1FAEC214005BBAFD /* GiphySearchClient+TestData.swift in Sources */,
 				CDE38EFD1FAFDAF400AE9EF8 /* ColorArt.swift in Sources */,
 				CD690EEB1FAF8D98004364DF /* GiphyUser.swift in Sources */,
 				CDB8A1771FB0DB040049012B /* SheetContainerViewController.swift in Sources */,
+				CD1F30281FB24FF60021AE09 /* GiphyListViewController.swift in Sources */,
 				CDE9DD001FAF3821005BBAFD /* GiphyTrendingClient.swift in Sources */,
 				CDB8A1801FB0DC6B0049012B /* UIFont+Application.swift in Sources */,
 				CD8F9C7F1FB14CCC00E9BFF6 /* SearchViewModel.swift in Sources */,
@@ -660,6 +665,7 @@
 				CDE38EFA1FAF958A00AE9EF8 /* GiphyViewModel.swift in Sources */,
 				CDF7E1211FAEA9CD00674579 /* Giphy_BrowserTests.swift in Sources */,
 				CD6A4DA41FB1657B007F7B81 /* SearchViewController.swift in Sources */,
+				CD1F302A1FB25ED50021AE09 /* LoaderCollectionViewCell.swift in Sources */,
 				CD690EDF1FAF60FF004364DF /* GiphyAutocompleteResult.swift in Sources */,
 				CDE9DCFA1FAEC1EB005BBAFD /* GiphyURLConstructor.swift in Sources */,
 				CDE9DCF31FAEB96A005BBAFD /* GiphyMetadata.swift in Sources */,

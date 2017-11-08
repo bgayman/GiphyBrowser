@@ -21,13 +21,13 @@ class SheetContainerViewController: UIViewController {
     // MARK: - Properties
     var masterViewController: UIViewController {
         didSet {
-            oldValue.removeFromParentViewController()
+            remove(childViewController: oldValue)
             add(childViewController: masterViewController, to: masterContainerView, at: 0)
         }
     }
     var detailViewController: UIViewController {
         didSet {
-            oldValue.removeFromParentViewController()
+            remove(childViewController: oldValue)
             add(childViewController: detailViewController, to: detailContainerView, at: 0)
         }
     }
@@ -35,6 +35,7 @@ class SheetContainerViewController: UIViewController {
     private let detailContainerCornerRadius: CGFloat = 20
     var bottomConstraintStartView: CGFloat = 64.0
     private var bottomClampOffset: CGFloat = 64.0
+    private var orientation = UIApplication.shared.statusBarOrientation
     var topOffset: CGFloat {
         let topInset: CGFloat
         if #available(iOS 11.0, *) {
@@ -64,7 +65,10 @@ class SheetContainerViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        animateDown()
+        if orientation != UIApplication.shared.statusBarOrientation {
+            orientation = UIApplication.shared.statusBarOrientation
+            animateDown()
+        }
     }
     
     // MARK: - Setup

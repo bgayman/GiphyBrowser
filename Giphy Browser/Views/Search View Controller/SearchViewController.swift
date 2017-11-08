@@ -9,10 +9,12 @@
 import UIKit
 import CoreMotion
 
+/// Protocol that informs delegate of important state changes
 protocol SearchViewControllerDelegate: class {
     func searchViewController(_ viewController: SearchViewController, didFinishSearchingWith searchString: String)
 }
 
+/// A view controller that allows users to enter search terms and displays autocompletion
 final class SearchViewController: UIViewController, StoryboardInitializable {
     
     // MARK: - Types
@@ -31,12 +33,14 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
     let searchViewModel = SearchViewModel()
     weak var delegate: SearchViewControllerDelegate?
     let motionManager = CMMotionManager()
+    var previewingContext: UIViewControllerPreviewing?
     var state = State.empty {
         didSet {
             updateState()
         }
     }
     
+    // MARK: - Lazy Inits
     lazy private var dynamicAnimator: UIDynamicAnimator = {
         let dynamicAnimator = UIDynamicAnimator(referenceView: self.emptyStateView)
         return dynamicAnimator
@@ -55,17 +59,16 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
         return collision
     }()
     
-    lazy private var mainSnapBehavior: UISnapBehavior = {
-        let mainSnapBehavior = UISnapBehavior(item: self.mainEmptyStateView, snapTo: CGPoint(x: self.emptyStateView.center.x, y: self.emptyStateView.center.y - (self.sheetContainerViewController?.topOffset ?? 0.0) - 20.0))
-        mainSnapBehavior.damping = 0.2
-        return mainSnapBehavior
+    lazy private var mainAttachmentBehavior: UIAttachmentBehavior = {
+        let mainAttachmentBehavior = UIAttachmentBehavior(item: self.mainEmptyStateView, attachedToAnchor: CGPoint(x: self.emptyStateView.center.x, y: self.emptyStateView.center.y - (self.sheetContainerViewController?.topOffset ?? 0.0) - 20.0))
+        mainAttachmentBehavior.length = 0.0
+        return mainAttachmentBehavior
     }()
     
     lazy private var labelAttachmentBehavior: UIAttachmentBehavior = {
         let labelAttachmentBehavior = UIAttachmentBehavior.limitAttachment(with: self.mainEmptyStateView, offsetFromCenter: .zero, attachedTo: self.emptyStateLabel, offsetFromCenter: .zero)
         labelAttachmentBehavior.length = self.mainEmptyStateView.bounds.midY + self.emptyStateLabel.bounds.midY + 15.0
-        labelAttachmentBehavior.damping = 0.2
-        
+        labelAttachmentBehavior.damping = 1.0
         return labelAttachmentBehavior
     }()
     
@@ -74,8 +77,7 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
         itemBehavior.allowsRotation = false
         itemBehavior.angularResistance = 6.0
         itemBehavior.resistance = 2.0
-        itemBehavior.density = 4.0
-        
+        itemBehavior.density = 2.0
         return itemBehavior
     }()
     
@@ -83,29 +85,27 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
         let items: [UIDynamicItem] = self.magnifyingGlassViews as [UIDynamicItem] + self.giphyViews as [UIDynamicItem]
         let itemBehavior = UIDynamicItemBehavior(items: items)
         itemBehavior.allowsRotation = true
-        itemBehavior.elasticity = 0.5
-        
+        itemBehavior.elasticity = 0.4
         return itemBehavior
     }()
     
     lazy var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
+        searchController.delegate = self
         searchController.searchResultsUpdater = self
         searchController.searchBar.tintColor = .appRed
         searchController.searchBar.delegate = self
         searchController.dimsBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
+        self.definesPresentationContext = true
         (UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]) ).defaultTextAttributes = [NSAttributedStringKey.font.rawValue: UIFont.appFont(weight: .medium, pointSize: 20.0)]
         return searchController
     }()
     
     lazy var magnifyingGlassViews: [MagnifyingGlassView] = {
         var magnifyingGlassViews = [MagnifyingGlassView]()
-        for _ in 0 ..< 75 {
-            let size: CGFloat = CGFloat(arc4random() % 30 + 20)
-            let x: CGFloat = CGFloat(arc4random() % UInt32(self.view.bounds.width - 100) + 50)
-            let y: CGFloat = CGFloat(arc4random() % UInt32(self.view.bounds.height - 200) + 100)
-            let magnifyingGlassView = MagnifyingGlassView(frame: CGRect(x: x, y: y, width: size, height: size))
+        for _ in 0 ..< 200 {
+            let magnifyingGlassView = MagnifyingGlassView(frame: .zero)
             self.emptyStateView.addSubview(magnifyingGlassView)
             magnifyingGlassViews.append(magnifyingGlassView)
         }
@@ -114,11 +114,8 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
     
     lazy var giphyViews: [GiphyView] = {
         var giphyViews = [GiphyView]()
-        for _ in 0 ..< 25 {
-            let size: CGFloat = CGFloat(arc4random() % 20 + 10)
-            let x: CGFloat = CGFloat(arc4random() % UInt32(self.view.bounds.width - 100) + 50)
-            let y: CGFloat = CGFloat(arc4random() % UInt32(self.view.bounds.height - 200) + 100)
-            let giphyView = GiphyView(frame: CGRect(x: x, y: y, width: size, height: size))
+        for _ in 0 ..< 20 {
+            let giphyView = GiphyView(frame: .zero)
             self.emptyStateView.addSubview(giphyView)
             giphyViews.append(giphyView)
         }
@@ -141,6 +138,9 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
         super.viewDidLayoutSubviews()
         mainEmptyStateView.frame = CGRect(x: emptyStateView.center.x, y: emptyStateView.center.y - (sheetContainerViewController?.topOffset ?? 0), width: min(425, emptyStateView.bounds.width - 100), height: min(425, emptyStateView.bounds.width - 100))
         dynamicAnimator.updateItem(usingCurrentState: mainEmptyStateView)
+        mainAttachmentBehavior.anchorPoint = CGPoint(x: emptyStateView.center.x, y: emptyStateView.center.y - (sheetContainerViewController?.topOffset ?? 0) - 100.0)
+        arrange(giphyViews)
+        arrange(magnifyingGlassViews)
     }
 
     // MARK: - Setup
@@ -166,17 +166,26 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
         mainEmptyStateView.translatesAutoresizingMaskIntoConstraints = true
         emptyStateView.addSubview(mainEmptyStateView)
         emptyStateLabel.font = UIFont.appFont(textStyle: .title2, weight: .medium)
+        emptyStateLabel.textColor = .lightGray
+        emptyStateLabel.numberOfLines = 0
         emptyStateLabel.translatesAutoresizingMaskIntoConstraints = true
         emptyStateLabel.center = CGPoint(x: view.bounds.midX, y: view.bounds.maxY - 50.0)
         emptyStateView.addSubview(emptyStateLabel)
         
+        arrange(giphyViews)
+        arrange(magnifyingGlassViews)
+        
         dynamicAnimator.addBehavior(gravity)
         dynamicAnimator.addBehavior(collision)
-        dynamicAnimator.addBehavior(mainSnapBehavior)
+        dynamicAnimator.addBehavior(mainAttachmentBehavior)
         dynamicAnimator.addBehavior(labelAttachmentBehavior)
         dynamicAnimator.addBehavior(itemBehavior)
         dynamicAnimator.addBehavior(magnifyingGlassItemBehavior)
         motionManager.startDeviceMotionUpdates(to: OperationQueue.main, withHandler: gravityUpdated)
+        
+        if traitCollection.forceTouchCapability == .available {
+            registerForPreviewing(with: self, sourceView: tableView)
+        }
     }
     
     // MARK: - Helpers
@@ -185,6 +194,16 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
         let range = (name.lowercased() as NSString).range(of: searchString.lowercased())
         attribString.addAttribute(.foregroundColor, value: UIColor.appBlue, range: range)
         return attribString
+    }
+    
+    private func arrange(_ views: [UIView]) {
+        views.forEach {
+            let size: CGFloat = CGFloat(arc4random() % 30 + 20)
+            let x: CGFloat = CGFloat(arc4random() % UInt32(self.emptyStateView.bounds.width - 100) + 50)
+            let y: CGFloat = CGFloat(arc4random() % UInt32(self.emptyStateView.bounds.height - 200) + 400)
+            $0.frame = CGRect(x: x, y: y, width: size, height: size)
+            self.dynamicAnimator.updateItem(usingCurrentState: $0)
+        }
     }
     
     // MARK: - Actions
@@ -287,6 +306,7 @@ extension SearchViewController: UISearchResultsUpdating {
     }
 }
 
+// MARK: - UISearchBarDelegate
 extension SearchViewController: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -297,5 +317,35 @@ extension SearchViewController: UISearchBarDelegate {
         guard let searchString = searchBar.text, searchString.isEmpty == false else { return }
         searchController.isActive = false
         delegate?.searchViewController(self, didFinishSearchingWith: searchString)
+    }
+}
+
+extension SearchViewController: UISearchControllerDelegate {
+    func didPresentSearchController(_ searchController: UISearchController) {
+        previewingContext = searchController.registerForPreviewing(with: self, sourceView: tableView)
+    }
+}
+
+// MARK: - UIViewControllerPreviewingDelegate
+extension SearchViewController: UIViewControllerPreviewingDelegate {
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let indexPath = tableView.indexPathForRow(at: location) else { return nil }
+        let rect = tableView.rectForRow(at: indexPath)
+        previewingContext.sourceRect = rect
+        let autocomplete = searchViewModel.autocomplete(for: indexPath)
+        let giphyViewController = GiphyListViewController.makeFromStoryboard()
+        giphyViewController.viewModel = GiphyViewModel(contentType: .search(autocomplete.name))
+        let navController = UINavigationController(rootViewController: giphyViewController)
+        return navController
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        guard let navController = viewControllerToCommit as? UINavigationController,
+              let giphyViewController = navController.viewControllers.first as? GiphyListViewController else { return }
+        searchController.searchBar.text = nil
+        delegate = giphyViewController
+        sheetContainerViewController?.masterViewController = navController
+        sheetContainerViewController?.animateDown()
     }
 }

@@ -13,6 +13,7 @@ class Giphy_BrowserTests: XCTestCase {
     var giphyResponse: GiphyResponse?
     var giphyAutocompleteResponse: GiphyAutocompleteResponse?
     var viewModel = GiphyViewModel(contentType: .search("ryan gosling"))
+    let searchViewModel = SearchViewModel()
     
     override func setUp() {
         super.setUp()
@@ -20,6 +21,9 @@ class Giphy_BrowserTests: XCTestCase {
         giphyAutocompleteResponse = GiphyAutocompleteClient.loadTestData()
         if let response = giphyResponse {
             viewModel.supplyTestData(response: response)
+        }
+        if let autocompleteResponse = giphyAutocompleteResponse {
+            searchViewModel.supplyTestData(response: autocompleteResponse)
         }
     }
     
@@ -40,7 +44,7 @@ class Giphy_BrowserTests: XCTestCase {
     
     func testLoadingGiphySearchResponseFromServer() {
         let serverExpectation = expectation(description: "Loading from server.")
-        GiphySearchClient.getSearchResult(for: "lions") { (result) in
+        GiphySearchClient.getSearchResult(for: "programmer") { (result) in
             switch result {
             case .error(let error):
                 XCTFail("Loading search results from server must not result in error. Error: \(error.localizedDescription)")
@@ -100,12 +104,14 @@ class Giphy_BrowserTests: XCTestCase {
         
         let firstIndexPath = IndexPath(item: 0, section: 0)
         let firstCellContent = viewModel.cellContent(for: firstIndexPath)
-        XCTAssertEqual(firstCellContent, .giphy(giphyResponse!.giphies.first!), "Last cell must be of type `.giphy`")
-        
-        let firstSize = viewModel.sizeForItem(at: firstIndexPath, maxWidth: 320.0, maxHeight: 520.0)
-        XCTAssertEqual(firstSize, CGSize(width: 322, height: 200), "First size must be 322 x 200")
+        XCTAssertEqual(firstCellContent, .giphy(giphyResponse!.giphies.first!), "First cell must be of type `.giphy`")
         
         let lastSize = viewModel.sizeForItem(at: lastIndexPath, maxWidth: 320.0, maxHeight: 520.0)
         XCTAssertEqual(lastSize, CGSize(width: 320.0, height: 44), "Last size must be 320 x 44")
+    }
+    
+    func testSearchViewModel() {
+        XCTAssertEqual(searchViewModel.numberOfItemsInSection(0), 8, "`searchViewModel.numberOfItemsInSection(0)` must be equal to 8")
+        XCTAssertEqual(searchViewModel.autocomplete(for: IndexPath(row: 0, section: 0)).name, "real housewives", "`searchViewModel.autocomplete(for: IndexPath(row: 0, section: 0)).name` must be equal to 'real housewives'")
     }
 }
