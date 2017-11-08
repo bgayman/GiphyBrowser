@@ -63,6 +63,16 @@ final class GiphyViewModel: NSObject {
         return contentType.title
     }
     
+    var shareURL: URL? {
+        switch contentType {
+        case .trending:
+            return URL(string: "https://giphy.com")
+        case .search(let searchString):
+            let encodedSearchString = searchString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlPathAllowed)
+            return URL(string: "https://giphy.com/search/\(encodedSearchString ?? "")")
+        }
+    }
+    
     // MARK: - Lifecycle
     init(contentType: GiphyViewModel.ContentType) {
         self.contentType = contentType

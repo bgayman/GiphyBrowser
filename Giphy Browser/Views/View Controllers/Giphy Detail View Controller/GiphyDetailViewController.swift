@@ -14,11 +14,24 @@ class GiphyDetailViewController: UIViewController {
     // MARK: - Properties
     let giphy: Giphy
     let colorArt: ColorArt?
+    var isPeeking = false
     
+    // MARK: - Computed Properties
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return  colorArt?.backgroundColor.isDarkColor == true ? .lightContent : .default
     }
     
+    override var previewActionItems: [UIPreviewActionItem] {
+        let shareActionItem = UIPreviewAction(title: "Share GIF", style: .default) { _, viewController in
+            guard let viewController = viewController as? GiphyDetailViewController,
+                  let data = viewController.imageView?.animatedImage?.data else { return }
+            let controller = UIActivityViewController(activityItems: [data], applicationActivities: nil)
+            UIApplication.shared.keyWindow?.rootViewController?.present(controller, animated: true)
+        }
+        return [shareActionItem]
+    }
+    
+    // MARK: - Lazy Inits
     lazy var dismissInteractiveController: PanInteractionController = {
         let dismissInteractiveController = PanInteractionController()
         dismissInteractiveController.panDirection = .down
@@ -53,6 +66,11 @@ class GiphyDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        [closeButton, actionButton].forEach { $0?.isHidden = isPeeking }
     }
     
     override func viewDidAppear(_ animated: Bool) {

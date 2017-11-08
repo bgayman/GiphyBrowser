@@ -58,6 +58,7 @@
 		CDC4B5BE1FAFF4DF00D20E0D /* UICollectionView+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC4B5BD1FAFF4DF00D20E0D /* UICollectionView+Animations.swift */; };
 		CDC4B5C01FB08FAA00D20E0D /* UIColor+Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC4B5BF1FB08FAA00D20E0D /* UIColor+Application.swift */; };
 		CDC4B5C11FB08FAA00D20E0D /* UIColor+Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC4B5BF1FB08FAA00D20E0D /* UIColor+Application.swift */; };
+		CDD1B7501FB38EC400C59B28 /* UICollectionView+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC4B5BD1FAFF4DF00D20E0D /* UICollectionView+Animations.swift */; };
 		CDE38EF91FAF93E200AE9EF8 /* GiphyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE38EF81FAF93E200AE9EF8 /* GiphyViewModel.swift */; };
 		CDE38EFA1FAF958A00AE9EF8 /* GiphyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE38EF81FAF93E200AE9EF8 /* GiphyViewModel.swift */; };
 		CDE38EFC1FAFD91A00AE9EF8 /* ColorArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE38EFB1FAFD91A00AE9EF8 /* ColorArt.swift */; };
@@ -558,7 +559,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		8C06BD5105C2A6CB31DD8AC6 /* [CP] Embed Pods Frameworks */ = {
@@ -641,7 +642,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -706,6 +707,7 @@
 				CD1F30281FB24FF60021AE09 /* GiphyListViewController.swift in Sources */,
 				CD5958C41FB2ACD6005509B4 /* MagicMoveAnimator.swift in Sources */,
 				CDE9DD001FAF3821005BBAFD /* GiphyTrendingClient.swift in Sources */,
+				CDD1B7501FB38EC400C59B28 /* UICollectionView+Animations.swift in Sources */,
 				CDB8A1801FB0DC6B0049012B /* UIFont+Application.swift in Sources */,
 				CD8F9C7F1FB14CCC00E9BFF6 /* SearchViewModel.swift in Sources */,
 				CDF7E1321FAEB3D200674579 /* GiphyImageType.swift in Sources */,

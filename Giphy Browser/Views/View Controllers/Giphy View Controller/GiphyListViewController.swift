@@ -27,10 +27,22 @@ final class GiphyListViewController: UIViewController, StoryboardInitializable {
             title = viewModel.title
             collectionView?.reloadData()
             refresh.beginRefreshing()
-            navigationItem.rightBarButtonItem = viewModel.contentType != .trending ? trendingBarButtonItem : nil
+            navigationItem.setRightBarButtonItems((viewModel.contentType != .trending) ? [trendingBarButtonItem, actionBarButtonItem] : [actionBarButtonItem], animated: true)
         }
     }
     
+    // MARK: - Computed Properties
+    override var previewActionItems: [UIPreviewActionItem] {
+        let shareActionItem = UIPreviewAction(title: "Share", style: .default) { _, viewController in
+            guard let viewController = viewController as? GiphyListViewController,
+                  let url = viewController.viewModel.shareURL else { return }
+            let controller = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+            UIApplication.shared.keyWindow?.rootViewController?.present(controller, animated: true)
+        }
+        return [shareActionItem]
+    }
+    
+    // MARK: - Lazy Inits
     lazy var refresh: UIRefreshControl = {
        let refresh = UIRefreshControl()
         refresh.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
@@ -42,10 +54,15 @@ final class GiphyListViewController: UIViewController, StoryboardInitializable {
         return trendingBarButtonItem
     }()
     
+    lazy var actionBarButtonItem: UIBarButtonItem = {
+        let actionBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icAction"), style: .plain, target: self, action: #selector(self.didPressAction(_:)))
+        return actionBarButtonItem
+    }()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.viewModel.delegate = self
+        viewModel.delegate = self
         setupUI()
     }
     
@@ -92,7 +109,7 @@ final class GiphyListViewController: UIViewController, StoryboardInitializable {
             collectionView.addSubview(refresh)
         }
         
-        navigationItem.rightBarButtonItem = (viewModel.contentType != .trending) ? trendingBarButtonItem : nil
+        navigationItem.setRightBarButtonItems((viewModel.contentType != .trending) ? [trendingBarButtonItem, actionBarButtonItem] : [actionBarButtonItem], animated: true)
         
         activityIndicator.startAnimating()
         
@@ -102,12 +119,19 @@ final class GiphyListViewController: UIViewController, StoryboardInitializable {
     }
     
     // MARK: - Actions
-    @objc func refresh(_ sender: UIRefreshControl) {
+    @objc private func refresh(_ sender: UIRefreshControl) {
         viewModel.refresh()
     }
     
-    @objc func didPressTrending(_ sender: UIBarButtonItem) {
+    @objc private func didPressTrending(_ sender: UIBarButtonItem) {
         viewModel = GiphyViewModel(contentType: .trending)
+    }
+    
+    @objc private func didPressAction(_ sender: UIBarButtonItem) {
+        guard let shareURL = viewModel.shareURL else { return }
+        let activityViewController = UIActivityViewController(activityItems: [shareURL], applicationActivities: nil)
+        activityViewController.popoverPresentationController?.barButtonItem = sender
+        present(activityViewController, animated: true)
     }
 }
 
@@ -180,7 +204,6 @@ extension GiphyListViewController: MagicMoveFromViewControllerDataSource {
     var fromURL: URL? {
         return selectedURL
     }
-
 }
 
 // MARK: - GiphyViewModelDelegate
@@ -216,7 +239,6 @@ extension GiphyListViewController: SearchViewControllerDelegate {
         viewModel = GiphyViewModel(contentType: .search(searchString.capitalized))
         sheetContainerViewController?.animateDown()
     }
-    
 }
 
 // MARK: - UIViewControllerPreviewingDelegate
@@ -233,11 +255,15 @@ extension GiphyListViewController: UIViewControllerPreviewingDelegate {
         selectedImageView = cell.imageView
         let rect = collectionView.layoutAttributesForItem(at: indexPath)?.frame ?? .zero
         previewingContext.sourceRect = rect
+        giphyListViewController.isPeeking = true
         giphyListViewController.preferredContentSize = viewModel.sizeForItem(at: indexPath, maxWidth: sheetContainerViewController?.view.bounds.width ?? 0, maxHeight: sheetContainerViewController?.view.bounds.height ?? 0)
         return giphyListViewController
     }
     
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        if let giphyDetailViewController = viewControllerToCommit as? GiphyDetailViewController {
+            giphyDetailViewController.isPeeking = false
+        }
         sheetContainerViewController?.present(viewControllerToCommit, animated: true)
     }
 }
