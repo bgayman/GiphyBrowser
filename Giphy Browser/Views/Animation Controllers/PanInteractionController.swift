@@ -44,14 +44,16 @@ final class PanInteractionController: UIPercentDrivenInteractiveTransition {
     // MARK: - Properties
     lazy var pan: UIPanGestureRecognizer = {
         let pan = UIPanGestureRecognizer(target: self, action: #selector(self.handlePan(pan:)))
+        pan.delegate = self
         return pan
     }()
     
     var panDirection = PanDirection.right
     weak var delegate: PanInteractionControllerDelegate?
+    private var panCorrectDirection = false
     
     var isActive: Bool {
-        return pan.state != .possible && pan.state != .failed
+        return pan.state != .possible && pan.state != .failed && panCorrectDirection == true
     }
     
     // MARK: - Public Methods
@@ -66,9 +68,15 @@ final class PanInteractionController: UIPercentDrivenInteractiveTransition {
         let translation = pan.translation(in: view)
         switch pan.state {
         case .began:
-            delegate?.interactiveAnimationDidStart(controller: self)
-            let progress = self.progress(with: translation)
-            update(progress)
+            if PanDirection(translation: translation) == panDirection {
+                panCorrectDirection = true
+                delegate?.interactiveAnimationDidStart(controller: self)
+                let progress = self.progress(with: translation)
+                update(progress)
+            }
+            else {
+                panCorrectDirection = false
+            }
         case .changed:
             let progress = self.progress(with: translation)
             update(progress)
@@ -121,5 +129,12 @@ final class PanInteractionController: UIPercentDrivenInteractiveTransition {
             progress = change / view.bounds.width
         }
         return progress
+    }
+}
+
+extension PanInteractionController: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return otherGestureRecognizer is UIPanGestureRecognizer
     }
 }

@@ -23,12 +23,20 @@ protocol MagicMoveToViewControllerDataSource: class {
 
 final class MagicMoveAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
+    // MARK: - Types
+    enum Direction {
+        case up
+        case down
+    }
+    
     // MARK: - Properties
     let isAppearing: Bool
     let duration: TimeInterval
+    let direction: Direction
     
     // MARK: - Lifecycle
-    init(isAppearing: Bool, duration: TimeInterval = 0.3) {
+    init(isAppearing: Bool, duration: TimeInterval = 0.3, direction: Direction = .up) {
+        self.direction = direction
         self.isAppearing =  isAppearing
         self.duration = duration
         super.init()
@@ -64,7 +72,7 @@ final class MagicMoveAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         toVC.view.alpha = 0.0
         let finalFrame = transitionContext.finalFrame(for: toVC)
         var frame = finalFrame
-        frame.origin.y += frame.size.height
+        frame.origin.y += direction == .up ? frame.size.height : -frame.size.height
         toVC.view.frame = frame
         toVC.view.layoutIfNeeded()
         container.addSubview(toVC.view)
@@ -105,7 +113,10 @@ final class MagicMoveAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             toMagicView.isHidden = false
             snapshot.removeFromSuperview()
             
-            transitionContext.completeTransition(finished)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                let wasCancelled = transitionContext.transitionWasCancelled
+                transitionContext.completeTransition(!wasCancelled)
+            }
         }
     }
     
@@ -143,7 +154,7 @@ final class MagicMoveAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         toVC.view.frame = finalFrame
         
         var frame = finalFrame
-        frame.origin.y += frame.size.height
+        frame.origin.y += direction == .up ? frame.size.height : -frame.size.height
         
         UIView.animate(withDuration: duration - 0.1, animations: {
             backdrop.alpha = 0
@@ -161,8 +172,10 @@ final class MagicMoveAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             fromMagicView.isHidden = false
             toMagicView?.isHidden = false
             
-            let wasCancelled = transitionContext.transitionWasCancelled
-            transitionContext.completeTransition(!wasCancelled)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                let wasCancelled = transitionContext.transitionWasCancelled
+                transitionContext.completeTransition(!wasCancelled)
+            }
         }
     }
     

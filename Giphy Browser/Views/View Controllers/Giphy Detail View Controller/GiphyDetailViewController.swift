@@ -32,11 +32,18 @@ class GiphyDetailViewController: UIViewController {
     }
     
     // MARK: - Lazy Inits
-    lazy var dismissInteractiveController: PanInteractionController = {
-        let dismissInteractiveController = PanInteractionController()
-        dismissInteractiveController.panDirection = .down
-        dismissInteractiveController.delegate = self
-        return dismissInteractiveController
+    lazy var dismissDownInteractiveController: PanInteractionController = {
+        let dismissDownInteractiveController = PanInteractionController()
+        dismissDownInteractiveController.panDirection = .down
+        dismissDownInteractiveController.delegate = self
+        return dismissDownInteractiveController
+    }()
+    
+    lazy var dismissUpInteractiveController: PanInteractionController = {
+        let dismissUpInteractiveController = PanInteractionController()
+        dismissUpInteractiveController.panDirection = .up
+        dismissUpInteractiveController.delegate = self
+        return dismissUpInteractiveController
     }()
     
     let dateFormatter: DateFormatter = {
@@ -70,7 +77,7 @@ class GiphyDetailViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        [closeButton, actionButton].forEach { $0?.isHidden = isPeeking }
+        chromeViews.forEach { $0.isHidden = isPeeking }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -104,7 +111,8 @@ class GiphyDetailViewController: UIViewController {
             $0?.transform = CGAffineTransform(translationX: 0, y: -100)
         }
         
-        dismissInteractiveController.attach(to: view)
+        dismissDownInteractiveController.attach(to: view)
+        dismissUpInteractiveController.attach(to: view)
     }
     
     // MARK: - Actions
@@ -163,11 +171,23 @@ extension GiphyDetailViewController: UIViewControllerTransitioningDelegate {
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if dismissUpInteractiveController.isActive {
+            return MagicMoveAnimator(isAppearing: false, direction: .down)
+        }
+        if dismissDownInteractiveController.isActive {
+            return MagicMoveAnimator(isAppearing: false, direction: .up)
+        }
         return MagicMoveAnimator(isAppearing: false)
     }
     
     func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return dismissInteractiveController.isActive ? dismissInteractiveController :  nil
+        if dismissUpInteractiveController.isActive {
+            return dismissUpInteractiveController
+        }
+        if dismissDownInteractiveController.isActive {
+            return dismissDownInteractiveController
+        }
+        return nil
     }
     
     func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
