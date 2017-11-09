@@ -171,6 +171,31 @@ class SheetContainerViewController: UIViewController {
             }
         }
     }
+    
+    func setSheetHidden(hidden: Bool, animated: Bool = true) {
+        if animated {
+            if hidden {
+                detailViewController.view.endEditing(true)
+                UIView.animate(withDuration: 0.2, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [.allowUserInteraction], animations:
+                    { [unowned self] in
+                        if #available(iOS 11.0, *) {
+                            self.detailContainerViewBottomConstraint.constant = -self.view.safeAreaInsets.bottom
+                        }
+                        else {
+                            self.detailContainerViewBottomConstraint.constant = -self.bottomLayoutGuide.length
+                        }
+                        self.view.layoutIfNeeded()
+                })
+            }
+            else {
+                animateDown()
+            }
+        }
+        else {
+            detailContainerViewBottomConstraint.constant = bottomClampOffset
+            overlayView.alpha = 0.0
+        }
+    }
 }
 
 // MARK: - MagicMoveFromViewControllerDataSource

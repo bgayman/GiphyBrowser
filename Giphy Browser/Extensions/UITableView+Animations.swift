@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Adds animated updating
 extension UITableView {
     
     func animateUpdate<T: Hashable>(oldDataSource: [T], newDataSource: [T]) {

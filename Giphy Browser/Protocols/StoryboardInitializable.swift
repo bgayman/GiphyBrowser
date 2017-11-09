@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Protocol with default implementation for initing a view controller from a storyboard
 protocol StoryboardInitializable {
     
     static var storyboardName: String { get }

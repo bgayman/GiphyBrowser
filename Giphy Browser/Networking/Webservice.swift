@@ -14,7 +14,7 @@ enum WebserviceError: Error {
     case invalidURL
 }
 
-/// Small wrapper around URLSession
+/// Small wrapper around URLSession that takes a request and returns a codable object
 struct Webservice {
     
     static func dataTask<T: Decodable>(with request: URLRequest, completion: @escaping (Result<T>) -> Void) {

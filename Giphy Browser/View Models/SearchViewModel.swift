@@ -8,11 +8,13 @@
 
 import Foundation
 
+/// Protocol that informs delegate of changes in view model state
 protocol SearchViewModelDelegate: class {
     func searchViewModel(_ viewModel: SearchViewModel, didUpdateWith autocompletes: [GiphyAutocomplete], from oldValue: [GiphyAutocomplete])
     func searchViewModel(_ viewModel: SearchViewModel, didFailToUpdateWith error: Error)
 }
 
+/// View model that handles logic of fetching and displaying a collection of autocomplete search suggestions
 final class SearchViewModel: NSObject {
     
     // MARK: - Properties

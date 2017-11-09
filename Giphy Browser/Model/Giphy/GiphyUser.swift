@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Struct that represents a user that created a specific Giphy
 struct GiphyUser: Codable {
     let username: String
     let displayName: String

@@ -21,6 +21,7 @@ protocol MagicMoveToViewControllerDataSource: class {
     var toURL: URL? { get }
 }
 
+/// Animation controller that produces and animation where a view seems to magically move from one view to another
 final class MagicMoveAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     // MARK: - Types

@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Adds animated updating
 extension UICollectionView {
     
     func animateUpdate<T: Hashable>(oldDataSource: [T], newDataSource: [T]) {

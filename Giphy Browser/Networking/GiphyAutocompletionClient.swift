@@ -10,7 +10,9 @@ import Foundation
 
 typealias GiphyAutocompleteResponseCompletion = (Result<GiphyAutocompleteResponse>) -> Void
 
+/// Client interface to Giphy Autocompletion API
 struct GiphyAutocompleteClient {
+    
     static func getAutocompletions(for searchString: String, completion: @escaping  GiphyAutocompleteResponseCompletion) {
         guard let url = GiphyURLConstructor.makeAutocompletionURL(with: searchString) else {
             completion(.error(error: WebserviceError.invalidURL))

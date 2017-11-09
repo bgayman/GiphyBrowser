@@ -9,7 +9,6 @@
 import UIKit
 
 /// Small struct to manage network activity indicator
-
 struct NetworkActivityIndicatorManager {
     
     static var shared = NetworkActivityIndicatorManager()

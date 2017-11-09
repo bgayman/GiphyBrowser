@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Protocol with default implementation for handling errors in a view controller
 protocol ErrorHandleable: class {
     func handle(_ error: Error?)
 }

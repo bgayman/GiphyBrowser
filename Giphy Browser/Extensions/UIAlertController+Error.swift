@@ -8,7 +8,9 @@
 
 import UIKit
 
+/// Adds convenience inits to UIAlertController
 extension UIAlertController {
+    
     convenience init(error: Error?, title: String? = nil) {
         self.init(title: title ?? "Error", message: error?.localizedDescription ?? "Oops, something went wrong.", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default)

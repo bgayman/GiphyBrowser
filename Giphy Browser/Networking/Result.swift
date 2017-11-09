@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Enum that represents possible network response
 enum Result<T> {
     case error(error: Error)
     case success(response: T)

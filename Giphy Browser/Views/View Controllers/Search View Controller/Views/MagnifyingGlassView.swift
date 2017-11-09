@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// UIView subclass that draws a magnifying glass and vends a collision boundry path
 final class MagnifyingGlassView: UIView {
     
     var lineWidth: CGFloat {

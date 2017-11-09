@@ -10,8 +10,9 @@ import Foundation
 
 /// Structure that conventiently constructs Giphy URLs
 struct GiphyURLConstructor {
+    
     struct Constants {
-        static let apiSecretKey = <# Replace with API Key #>
+        static let apiSecretKey = <# Replace with API Key #> //  available at https://developers.giphy.com
         static let scheme = "https"
         static let host = "api.giphy.com"
         static let trendingPath = "/v1/gifs/trending"

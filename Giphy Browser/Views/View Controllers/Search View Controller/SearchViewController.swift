@@ -105,7 +105,7 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
     
     lazy var magnifyingGlassViews: [MagnifyingGlassView] = {
         var magnifyingGlassViews = [MagnifyingGlassView]()
-        for _ in 0 ..< 100 {
+        for _ in 0 ..< 60 {
             let magnifyingGlassView = MagnifyingGlassView(frame: .zero)
             self.emptyStateView.addSubview(magnifyingGlassView)
             magnifyingGlassViews.append(magnifyingGlassView)
@@ -159,10 +159,10 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        mainEmptyStateView.frame = CGRect(x: emptyStateView.center.x, y: emptyStateView.center.y - (sheetContainerViewController?.topOffset ?? 0), width: min(425, emptyStateView.bounds.width - 100), height: min(425, emptyStateView.bounds.width - 100))
-        mainEmptyStateView.center = CGPoint(x: emptyStateView.center.x, y: emptyStateView.center.y - (sheetContainerViewController?.topOffset ?? 0) - 100.0)
+        mainEmptyStateView.frame = CGRect(x: emptyStateView.center.x, y: emptyStateView.bounds.minY + 100.0, width: min(425, emptyStateView.bounds.width - 100), height: min(425, emptyStateView.bounds.width - 100))
+        mainEmptyStateView.center = CGPoint(x: emptyStateView.center.x, y: 100 + mainEmptyStateView.bounds.height * 0.5)
         dynamicAnimator.updateItem(usingCurrentState: mainEmptyStateView)
-        mainAttachmentBehavior.anchorPoint = CGPoint(x: emptyStateView.center.x, y: emptyStateView.center.y - (sheetContainerViewController?.topOffset ?? 0) - 100.0)
+        mainAttachmentBehavior.anchorPoint = mainEmptyStateView.center
         updateViews()
         updateBoundries()
     }

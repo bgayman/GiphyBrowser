@@ -15,6 +15,7 @@ protocol PanInteractionControllerDelegate: class {
     
 }
 
+/// UIPercentDrivenInteractiveTransition subclass that handle interactive transition based on a pan gesture in a specific direction
 final class PanInteractionController: UIPercentDrivenInteractiveTransition {
     
     // MARK: - Types

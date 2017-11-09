@@ -10,7 +10,8 @@ import UIKit
 import SDWebImage
 import MobileCoreServices
 
-class GiphyDetailViewController: UIViewController {
+/// View Controller that displays a single high quality GIF
+final class GiphyDetailViewController: UIViewController {
 
     // MARK: - Properties
     let giphy: Giphy
@@ -19,7 +20,7 @@ class GiphyDetailViewController: UIViewController {
     
     // MARK: - Computed Properties
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return  colorArt?.backgroundColor.isDarkColor == true ? .lightContent : .default
+        return  colorArt?.backgroundColor.isContrastingColor(.white) == true ? .lightContent : .default
     }
     
     override var previewActionItems: [UIPreviewActionItem] {
@@ -95,7 +96,7 @@ class GiphyDetailViewController: UIViewController {
         let url = giphy.images[GiphyImageType.original.rawValue]?.url
         imageView.sd_setImage(with: url)
         
-        let tintColor: UIColor = colorArt?.backgroundColor.isDarkColor == true ? .white : .black
+        let tintColor: UIColor = colorArt?.backgroundColor.isContrastingColor(.white) == true ? .white : .black
         let font = UIFont.appFont(textStyle: .title3, weight: .bold)
         
         titleLabel.text = giphy.title.capitalized
@@ -138,8 +139,10 @@ class GiphyDetailViewController: UIViewController {
     private func animateOnChrome(views: [UIView]) {
         UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.0, options: [.allowUserInteraction], animations: {
             views.forEach {
+                if self.isPeeking == false {
+                    $0.isHidden = false
+                }
                 $0.transform = .identity
-                $0.isHidden = false
             }
         })
     }

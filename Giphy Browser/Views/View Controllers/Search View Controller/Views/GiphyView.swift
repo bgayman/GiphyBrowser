@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// UIView subclass that poorly draws a Giphy-esque logo and vends a collision boundry path
 final class GiphyView: UIView {
     
     var color = UIColor.lightGray {

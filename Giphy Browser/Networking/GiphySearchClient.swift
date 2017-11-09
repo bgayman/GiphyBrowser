@@ -12,6 +12,7 @@ typealias GiphyResponseCompletion = (Result<GiphyResponse>) -> Void
 
 /// Client interface to Giphy Search API
 struct GiphySearchClient {
+    
     static func getSearchResult(for searchString: String, limit: Int = 25, offset: Int = 0, completion: @escaping GiphyResponseCompletion) {
         guard let url = GiphyURLConstructor.makeSearchURL(with: searchString, limit: limit, offset: offset) else {
             completion(.error(error: WebserviceError.invalidURL))

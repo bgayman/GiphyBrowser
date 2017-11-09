@@ -214,12 +214,14 @@ extension GiphyListViewController: UICollectionViewDragDelegate {
 
 // MARK: - UIScrollViewDelegate
 extension GiphyListViewController: UIScrollViewDelegate {
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let scrollSpeed = scrollView.contentOffset.y - previousScrollViewYOffset
         previousScrollViewYOffset = scrollView.contentOffset.y
         if scrollSpeed < 0 {
-            self.navigationController?.setNavigationBarHidden(false, animated: true)
+            navigationController?.setNavigationBarHidden(false, animated: true)
         }
+        sheetContainerViewController?.setSheetHidden(hidden: navigationController?.isNavigationBarHidden == true)
     }
 }
 

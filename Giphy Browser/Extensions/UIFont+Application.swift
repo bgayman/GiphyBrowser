@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// App font book
 extension UIFont {
     
     static func appFont(textStyle: UIFontTextStyle, weight: UIFont.Weight) -> UIFont {
