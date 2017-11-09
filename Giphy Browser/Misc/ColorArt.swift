@@ -1,7 +1,7 @@
 
 import UIKit
 
-public extension UIImage {
+extension UIImage {
     func scaledToSize(_ size: CGSize) -> UIImage {
         UIGraphicsBeginImageContext(size)
         self.draw(in: CGRect(origin: CGPoint.zero, size: size))
