@@ -109,7 +109,11 @@ class Giphy_BrowserTests: XCTestCase {
         let lastSize = viewModel.sizeForItem(at: lastIndexPath, maxWidth: 320.0, maxHeight: 520.0)
         XCTAssertEqual(lastSize, CGSize(width: 320.0, height: 44), "Last size must be 320 x 44")
         
+        XCTAssertNotNil(viewModel.shareURL, "`viewModel.shareURL` must not be nil")
+        
         XCTAssertEqual(viewModel.shareURL?.absoluteString, "https://giphy.com/search/ryan%20gosling","`viewModel.shareURL?.absoluteString` must be equal to https://giphy.com/search/ryan%20gosling")
+        
+        XCTAssertEqual(viewModel.searchString(from: viewModel.shareURL)?.lowercased(), "ryan gosling", "`viewModel.searchString(from: viewModel.shareURL)?.lowercased()` must be equal to 'ryan gosling'")
         
         XCTAssertNotNil(viewModel.viewController(for: IndexPath(item: 0, section: 0)), "`viewModel.viewController(for: IndexPath(item: 0, section: 0))` must be non nil")
     }
