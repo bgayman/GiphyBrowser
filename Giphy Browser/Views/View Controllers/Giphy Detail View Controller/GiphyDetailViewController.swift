@@ -123,6 +123,7 @@ final class GiphyDetailViewController: UIViewController {
     
     // MARK: - Actions
     @IBAction private func didPressClose(_ sender: UIButton) {
+        animateOffChrome()
         dismiss(animated: true)
     }
     
@@ -147,19 +148,16 @@ final class GiphyDetailViewController: UIViewController {
         })
     }
     
-    private func animateOffTop() {
-        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [.allowUserInteraction], animations: {
-            [self.closeButton, self.actionButton].forEach { $0.transform = CGAffineTransform(translationX: 0, y: -100) }
-        }) { _ in
-            [self.closeButton, self.actionButton].forEach { $0?.isHidden = true }
-        }
+    private func animateOffChrome() {
+        animateOff([closeButton, actionButton], transform: CGAffineTransform(translationX: 0, y: -100))
+        animateOff([titleLabel, uploadDateLabel], transform: CGAffineTransform(translationX: 0, y: 100))
     }
     
-    private func animateOffBottom() {
-        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [], animations: {
-            [self.titleLabel, self.uploadDateLabel].forEach { $0.transform = CGAffineTransform(translationX: 0, y: 100) }
+    private func animateOff(_ views: [UIView], transform: CGAffineTransform) {
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [.allowUserInteraction], animations: {
+            views.forEach { $0.transform = transform }
         }) { _ in
-            [self.titleLabel, self.uploadDateLabel].forEach { $0?.isHidden = true }
+            views.forEach { $0.isHidden = true }
         }
     }
 }
@@ -168,8 +166,7 @@ final class GiphyDetailViewController: UIViewController {
 extension GiphyDetailViewController: PanInteractionControllerDelegate {
     
     func interactiveAnimationDidStart(controller: PanInteractionController) {
-        animateOffTop()
-        animateOffBottom()
+        animateOffChrome()
         dismiss(animated: true)
     }
     
