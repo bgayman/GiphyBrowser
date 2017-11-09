@@ -119,25 +119,6 @@ class SheetContainerViewController: UIViewController {
         animateDown()
     }
     
-    // MARK: - Helpers
-    private func add(childViewController: UIViewController, to view: UIView, at index: Int) {
-        childViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        self.addChildViewController(childViewController)
-        childViewController.view.frame = view.bounds
-        view.insertSubview(childViewController.view, at: index)
-        childViewController.view.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        childViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        childViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        childViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        childViewController.didMove(toParentViewController: self)
-    }
-    
-    private func remove(childViewController: UIViewController) {
-        childViewController.willMove(toParentViewController: nil)
-        childViewController.removeFromParentViewController()
-        childViewController.view.removeFromSuperview()
-    }
-    
     // MARK: - Animation
     func animateDown()
     {
@@ -221,6 +202,9 @@ extension UIViewController {
         if let sheetVC = parent as? SheetContainerViewController {
             return sheetVC
         }
-        return navigationController?.parent as? SheetContainerViewController
+        if let sheetVC = navigationController?.parent as? SheetContainerViewController {
+            return sheetVC
+        }
+        return parent?.sheetContainerViewController
     }
 }
