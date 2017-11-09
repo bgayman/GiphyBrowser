@@ -8,6 +8,7 @@
 
 import UIKit
 import SDWebImage
+import MobileCoreServices
 
 /// A view controller that displays GIFs in a scrolling list
 final class GiphyListViewController: UIViewController, StoryboardInitializable {
@@ -95,6 +96,8 @@ final class GiphyListViewController: UIViewController, StoryboardInitializable {
             navigationController?.navigationBar.prefersLargeTitles = true
             navigationController?.navigationItem.largeTitleDisplayMode = .always
             navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedStringKey.font: UIFont.appFont(weight: .black, pointSize: 40.0)]
+            collectionView.addInteraction(UIDropInteraction(delegate: self))
+            collectionView.dragDelegate = self
         }
         else {
             navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font: UIFont.appFont(weight: .medium, pointSize: 23.0)]
@@ -183,6 +186,32 @@ extension GiphyListViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: - UICollectionViewDragDelegate
+@available(iOS 11.0, *)
+extension GiphyListViewController: UICollectionViewDragDelegate {
+    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        guard let dragItem = dragItem(for: indexPath) else { return [] }
+        return [dragItem]
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, itemsForAddingTo session: UIDragSession, at indexPath: IndexPath, point: CGPoint) -> [UIDragItem] {
+        guard let dragItem = dragItem(for: indexPath) else { return [] }
+        return [dragItem]
+    }
+    
+    private func dragItem(for indexPath: IndexPath) -> UIDragItem? {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? GiphyCollectionViewCell,
+            let data = cell.imageView?.animatedImage?.data else { return nil }
+        let itemProvider = NSItemProvider()
+        itemProvider.registerDataRepresentation(forTypeIdentifier: kUTTypeGIF as String, visibility: .all) { completion in
+            completion(data, nil)
+            return nil
+        }
+        let dragItem = UIDragItem(itemProvider: itemProvider)
+        return dragItem
+    }
+}
+
 // MARK: - UIScrollViewDelegate
 extension GiphyListViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -212,12 +241,7 @@ extension GiphyListViewController: GiphyViewModelDelegate, ErrorHandleable {
     func giphyViewModel(_ viewModel: GiphyViewModel, didUpdate giphies: [Giphy]) {
         activityIndicator.stopAnimating()
         refresh.endRefreshing()
-        if collectionView.numberOfItems(inSection: 0) == 0 {
-            collectionView.animateInitialPopulation(sectionItems: [(0, viewModel.numberOfItemsInSection(0))])
-        }
-        else {
-            collectionView.reloadData()
-        }
+        collectionView.reloadData()
     }
     
     func giphyViewModel(_ viewModel: GiphyViewModel, updateFailedWith error: Error) {
@@ -238,6 +262,31 @@ extension GiphyListViewController: SearchViewControllerDelegate {
     func searchViewController(_ viewController: SearchViewController, didFinishSearchingWith searchString: String) {
         viewModel = GiphyViewModel(contentType: .search(searchString.capitalized))
         sheetContainerViewController?.animateDown()
+    }
+}
+
+// MARK: - UIDropInteractionDelegate
+@available(iOS 11.0, *)
+extension GiphyListViewController: UIDropInteractionDelegate {
+        
+    func dropInteraction(_ interaction: UIDropInteraction, canHandle session: UIDropSession) -> Bool {
+        return session.hasItemsConforming(toTypeIdentifiers: [kUTTypeURL as String])
+    }
+    
+    func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
+        if session.hasItemsConforming(toTypeIdentifiers: [kUTTypeURL as String]) {
+            return UIDropProposal(operation: .copy)
+        }
+        return UIDropProposal(operation: .forbidden)
+    }
+    
+    func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
+        session.loadObjects(ofClass: NSString.self) { [unowned self] (itemProviders) in
+            guard let itemProvider = itemProviders.first as? NSString,
+                  let url = URL(string: itemProvider as String),
+                  let searchString = self.viewModel.searchString(from: url) else { return }
+            self.viewModel = GiphyViewModel(contentType: .search(searchString))
+        }
     }
 }
 

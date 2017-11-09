@@ -48,14 +48,14 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
     
     lazy private var gravity: UIGravityBehavior = {
         let gravity = UIGravityBehavior(items: dynamicItems)
-        gravity.magnitude = 0.5
+        gravity.magnitude = 2.0
         return gravity
     }()
     
     lazy private var collision: UICollisionBehavior = {
         let inset = UIEdgeInsets(top: 0, left: 0, bottom: (self.sheetContainerViewController?.topOffset ?? 0), right: 0)
-        let collision = UICollisionBehavior(items: dynamicItems)
-        collision.setTranslatesReferenceBoundsIntoBoundary(with: inset)
+        let dynamicViews: [UIDynamicItem] = giphyViews as [UIDynamicItem] + magnifyingGlassViews as [UIDynamicItem]
+        let collision = UICollisionBehavior(items: dynamicViews)
         return collision
     }()
     
@@ -105,7 +105,7 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
     
     lazy var magnifyingGlassViews: [MagnifyingGlassView] = {
         var magnifyingGlassViews = [MagnifyingGlassView]()
-        for _ in 0 ..< 200 {
+        for _ in 0 ..< 100 {
             let magnifyingGlassView = MagnifyingGlassView(frame: .zero)
             self.emptyStateView.addSubview(magnifyingGlassView)
             magnifyingGlassViews.append(magnifyingGlassView)
@@ -123,9 +123,31 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
         return giphyViews
     }()
     
+    lazy var tapGesture: UITapGestureRecognizer = {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.didTapNavigationBar(_:)))
+        return tapGesture
+    }()
+    
     // MARK: - Computed Properties
     var dynamicItems: [UIDynamicItem] {
         return magnifyingGlassViews as [UIDynamicItem] + [mainEmptyStateView, emptyStateLabel] as [UIDynamicItem] + giphyViews as [UIDynamicItem]
+    }
+    
+    var ovalCollisionPath: UIBezierPath {
+        let rect = emptyStateView.convert(mainEmptyStateView.ovalRect, from: mainEmptyStateView)
+        let ovalPath = UIBezierPath(ovalIn: rect)
+        ovalPath.lineWidth = mainEmptyStateView.lineWidth
+        return ovalPath
+    }
+    
+    var lineCollisionPath: UIBezierPath {
+        let linePath = UIBezierPath()
+        let startPoint = emptyStateView.convert(mainEmptyStateView.startPoint, from: mainEmptyStateView)
+        linePath.move(to: startPoint)
+        let endPoint = mainEmptyStateView.convert(mainEmptyStateView.endPoint, to: emptyStateView)
+        linePath.addLine(to: endPoint)
+        linePath.lineWidth = mainEmptyStateView.lineLineWidth
+        return linePath
     }
     
     // MARK: - Lifecycle
@@ -138,10 +160,11 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         mainEmptyStateView.frame = CGRect(x: emptyStateView.center.x, y: emptyStateView.center.y - (sheetContainerViewController?.topOffset ?? 0), width: min(425, emptyStateView.bounds.width - 100), height: min(425, emptyStateView.bounds.width - 100))
+        mainEmptyStateView.center = CGPoint(x: emptyStateView.center.x, y: emptyStateView.center.y - (sheetContainerViewController?.topOffset ?? 0) - 100.0)
         dynamicAnimator.updateItem(usingCurrentState: mainEmptyStateView)
         mainAttachmentBehavior.anchorPoint = CGPoint(x: emptyStateView.center.x, y: emptyStateView.center.y - (sheetContainerViewController?.topOffset ?? 0) - 100.0)
-        arrange(giphyViews)
-        arrange(magnifyingGlassViews)
+        updateViews()
+        updateBoundries()
     }
 
     // MARK: - Setup
@@ -152,9 +175,12 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
         
         navigationController?.navigationBar.barTintColor = UIColor.appBeige
         navigationController?.navigationBar.tintColor = UIColor.appRed
+        navigationController?.navigationBar.addGestureRecognizer(tapGesture)
         
         if #available(iOS 11.0, *) {
             navigationItem.searchController = searchController
+            tableView.dragDelegate = self
+            tableView.dragInteractionEnabled = true
         }
         else {
             tableView.tableHeaderView = searchController.searchBar
@@ -165,9 +191,10 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
         tableView.separatorEffect = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .light))
         
         mainEmptyStateView.translatesAutoresizingMaskIntoConstraints = true
+        mainEmptyStateView.color = UIColor.appBlue
         emptyStateView.addSubview(mainEmptyStateView)
         emptyStateLabel.font = UIFont.appFont(textStyle: .title2, weight: .medium)
-        emptyStateLabel.textColor = .lightGray
+        emptyStateLabel.textColor = .appBlue
         emptyStateLabel.numberOfLines = 0
         emptyStateLabel.translatesAutoresizingMaskIntoConstraints = true
         emptyStateLabel.center = CGPoint(x: emptyStateView.bounds.midX, y: emptyStateView.bounds.maxY - 100.0)
@@ -199,9 +226,9 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
     
     private func arrange(_ views: [UIView]) {
         views.forEach {
-            let size: CGFloat = CGFloat(arc4random() % 30 + 20)
+            let size: CGFloat = CGFloat(arc4random() % 50 + 20)
             let x: CGFloat = CGFloat(arc4random() % UInt32(self.emptyStateView.bounds.width - 100) + 50)
-            let y: CGFloat = CGFloat(arc4random() % UInt32(self.emptyStateView.bounds.height - 200) + 400)
+            let y: CGFloat = CGFloat(arc4random() % UInt32(self.emptyStateView.bounds.height * 0.5 + 50) + UInt32(self.emptyStateView.bounds.height * 0.5))
             $0.frame = CGRect(x: x, y: y, width: size, height: size)
             self.dynamicAnimator.updateItem(usingCurrentState: $0)
         }
@@ -217,6 +244,11 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
     @IBAction func didTapEmptyState(_ sender: UITapGestureRecognizer) {
         searchController.isActive = false
     }
+    
+    @objc func didTapNavigationBar(_ sender: UITapGestureRecognizer) {
+        sheetContainerViewController?.animateUp()
+    }
+    
     // MARK: - Core Motion
     @objc
     private func gravityUpdated(motion: CMDeviceMotion?, error: Error?) {
@@ -262,6 +294,19 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
         UIView.animate(withDuration: 0.2) { [unowned self] in
             self.emptyStateView.alpha = alpha
         }
+    }
+    
+    private func updateBoundries() {
+        collision.removeAllBoundaries()
+        let inset = UIEdgeInsets(top: 0, left: 0, bottom: (self.sheetContainerViewController?.topOffset ?? 0), right: 0)
+        collision.setTranslatesReferenceBoundsIntoBoundary(with: inset)
+        collision.addBoundary(withIdentifier: "ovalCollisionPath" as NSString, for: ovalCollisionPath)
+        collision.addBoundary(withIdentifier: "lineCollisionPath" as NSString, for: lineCollisionPath)
+    }
+    
+    private func updateViews() {
+        arrange(giphyViews)
+        arrange(magnifyingGlassViews)
     }
 }
 
@@ -321,9 +366,26 @@ extension SearchViewController: UISearchBarDelegate {
     }
 }
 
+// MARK: - UISearchControllerDelegate
 extension SearchViewController: UISearchControllerDelegate {
     func didPresentSearchController(_ searchController: UISearchController) {
         previewingContext = searchController.registerForPreviewing(with: self, sourceView: tableView)
+        if #available(iOS 11.0, *) {
+            tableView.dragDelegate = self
+            tableView.dragInteractionEnabled = true
+        }
+    }
+}
+
+// MARK: - UITableViewDragDelegate
+@available(iOS 11.0, *)
+extension SearchViewController: UITableViewDragDelegate {
+    
+    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        let autocomplete = searchViewModel.autocomplete(for: indexPath)
+        guard let url = autocomplete.shareURL as NSURL? else { return [] }
+        let dragURLItem = UIDragItem(itemProvider: NSItemProvider(object: url))
+        return [dragURLItem]
     }
 }
 

@@ -34,10 +34,10 @@ final class GiphyView: UIView {
     
     override func draw(_ rect: CGRect) {
         color.set()
-        let lineWidth = bounds.width * 0.05
         let path = UIBezierPath()
         let margin = bounds.width * 0.15
         let dogEarInset = (bounds.width - margin * 2.0) * 0.333
+        let lineWidth = dogEarInset * 0.3
         path.move(to: CGPoint(x: margin + lineWidth * 0.5, y: lineWidth * 0.5))
         path.addLine(to: CGPoint(x: bounds.maxX - margin - dogEarInset - lineWidth * 0.5, y: lineWidth * 0.5 ))
         path.addLine(to: CGPoint(x: bounds.maxX - margin - dogEarInset - lineWidth * 0.5, y: dogEarInset - lineWidth * 0.5))
@@ -60,10 +60,10 @@ final class GiphyView: UIView {
     }
     
     override var collisionBoundingPath: UIBezierPath {
-        let lineWidth = bounds.width * 0.05
         let path = UIBezierPath()
         let margin = bounds.width * 0.15
         let dogEarInset = (bounds.width - margin * 2.0) * 0.333
+        let lineWidth = dogEarInset * 0.3
         path.move(to: CGPoint(x: margin + lineWidth * 0.5 - bounds.midX, y: lineWidth * 0.5 - bounds.midY))
         path.addLine(to: CGPoint(x: bounds.maxX - margin - dogEarInset - lineWidth * 0.5 - bounds.midX, y: lineWidth * 0.5 - bounds.midY))
         path.addLine(to: CGPoint(x: bounds.maxX - margin - dogEarInset - lineWidth * 0.5 - bounds.midX, y: dogEarInset - lineWidth * 0.5 - bounds.midY))

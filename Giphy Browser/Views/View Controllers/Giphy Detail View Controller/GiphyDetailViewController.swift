@@ -8,6 +8,7 @@
 
 import UIKit
 import SDWebImage
+import MobileCoreServices
 
 class GiphyDetailViewController: UIViewController {
 
@@ -113,6 +114,10 @@ class GiphyDetailViewController: UIViewController {
         
         dismissDownInteractiveController.attach(to: view)
         dismissUpInteractiveController.attach(to: view)
+        
+        if #available(iOS 11.0, *) {
+            imageView.addInteraction(UIDragInteraction(delegate: self))
+        }
     }
     
     // MARK: - Actions
@@ -132,8 +137,27 @@ class GiphyDetailViewController: UIViewController {
     // MARK: - Animation
     private func animateOnChrome(views: [UIView]) {
         UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.0, options: [.allowUserInteraction], animations: {
-            views.forEach { $0.transform = .identity }
+            views.forEach {
+                $0.transform = .identity
+                $0.isHidden = false
+            }
         })
+    }
+    
+    private func animateOffTop() {
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [.allowUserInteraction], animations: {
+            [self.closeButton, self.actionButton].forEach { $0.transform = CGAffineTransform(translationX: 0, y: -100) }
+        }) { _ in
+            [self.closeButton, self.actionButton].forEach { $0?.isHidden = true }
+        }
+    }
+    
+    private func animateOffBottom() {
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: [], animations: {
+            [self.titleLabel, self.uploadDateLabel].forEach { $0.transform = CGAffineTransform(translationX: 0, y: 100) }
+        }) { _ in
+            [self.titleLabel, self.uploadDateLabel].forEach { $0?.isHidden = true }
+        }
     }
 }
 
@@ -141,6 +165,8 @@ class GiphyDetailViewController: UIViewController {
 extension GiphyDetailViewController: PanInteractionControllerDelegate {
     
     func interactiveAnimationDidStart(controller: PanInteractionController) {
+        animateOffTop()
+        animateOffBottom()
         dismiss(animated: true)
     }
     
@@ -192,5 +218,19 @@ extension GiphyDetailViewController: UIViewControllerTransitioningDelegate {
     
     func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         return nil
+    }
+}
+
+@available(iOS 11.0, *)
+extension GiphyDetailViewController: UIDragInteractionDelegate {
+    func dragInteraction(_ interaction: UIDragInteraction, itemsForBeginning session: UIDragSession) -> [UIDragItem] {
+        guard let data = imageView?.animatedImage?.data else { return [] }
+        let itemProvider = NSItemProvider()
+        itemProvider.registerDataRepresentation(forTypeIdentifier: kUTTypeGIF as String, visibility: .all) { completion in
+            completion(data, nil)
+            return nil
+        }
+        let dragItem = UIDragItem(itemProvider: itemProvider)
+        return [dragItem]
     }
 }

@@ -17,6 +17,11 @@ struct GiphyAutocomplete: Codable {
         case name
         case nameEncoded = "name_encoded"
     }
+    
+    var shareURL: URL? {
+        guard let encodedSearchString = name.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlPathAllowed) else { return nil }
+        return URL(string: "https://giphy.com/search/\(encodedSearchString)")
+    }
 }
 
 extension GiphyAutocomplete: Equatable {

@@ -203,6 +203,13 @@ final class GiphyViewModel: NSObject {
         }
     }
     
+    func searchString(from url: URL?) -> String? {
+        guard url?.host == "giphy.com",
+              url?.pathComponents.contains("search") == true,
+              let searchString = url?.pathComponents.last?.removingPercentEncoding else { return nil }
+        return searchString
+    }
+    
     // MARK: - Test Helpers
     func supplyTestData(response: GiphyResponse) {
         giphies = response.giphies
