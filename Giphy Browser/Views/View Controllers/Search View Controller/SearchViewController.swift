@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import CoreMotion
 
 /// Protocol that informs delegate of important state changes
 protocol SearchViewControllerDelegate: class {
@@ -26,13 +25,11 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
     // MARK: - Outlets
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var emptyStateView: UIView!
-    @IBOutlet private var mainEmptyStateView: MagnifyingGlassView!
-    @IBOutlet private var emptyStateLabel: UILabel!
     
     // MARK: - Properties
     let searchViewModel = SearchViewModel()
+    let searchEmptyStateViewController = SearchEmptyStateViewController()
     weak var delegate: SearchViewControllerDelegate?
-    let motionManager = CMMotionManager()
     var previewingContext: UIViewControllerPreviewing?
     var state = State.empty {
         didSet {
@@ -41,55 +38,6 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
     }
     
     // MARK: - Lazy Inits
-    lazy private var dynamicAnimator: UIDynamicAnimator = {
-        let dynamicAnimator = UIDynamicAnimator(referenceView: self.emptyStateView)
-        return dynamicAnimator
-    }()
-    
-    lazy private var gravity: UIGravityBehavior = {
-        let gravity = UIGravityBehavior(items: dynamicItems)
-        gravity.magnitude = 2.0
-        return gravity
-    }()
-    
-    lazy private var collision: UICollisionBehavior = {
-        let inset = UIEdgeInsets(top: 0, left: 0, bottom: (self.sheetContainerViewController?.topOffset ?? 0), right: 0)
-        let dynamicViews: [UIDynamicItem] = giphyViews as [UIDynamicItem] + magnifyingGlassViews as [UIDynamicItem]
-        let collision = UICollisionBehavior(items: dynamicViews)
-        return collision
-    }()
-    
-    lazy private var mainAttachmentBehavior: UIAttachmentBehavior = {
-        let mainAttachmentBehavior = UIAttachmentBehavior(item: self.mainEmptyStateView, attachedToAnchor: CGPoint(x: self.emptyStateView.center.x, y: self.emptyStateView.center.y - (self.sheetContainerViewController?.topOffset ?? 0.0) - 20.0))
-        mainAttachmentBehavior.length = 0.0
-        return mainAttachmentBehavior
-    }()
-    
-    lazy private var labelAttachmentBehavior: UIAttachmentBehavior = {
-        let labelAttachmentBehavior = UIAttachmentBehavior.limitAttachment(with: self.mainEmptyStateView, offsetFromCenter: .zero, attachedTo: self.emptyStateLabel, offsetFromCenter: .zero)
-        labelAttachmentBehavior.length = self.mainEmptyStateView.bounds.midY + self.emptyStateLabel.bounds.midY + 15.0
-        labelAttachmentBehavior.damping = 1.0
-        return labelAttachmentBehavior
-    }()
-    
-    lazy private var itemBehavior: UIDynamicItemBehavior = {
-        let itemBehavior = UIDynamicItemBehavior(items: [self.mainEmptyStateView, self.emptyStateLabel])
-        itemBehavior.allowsRotation = false
-        itemBehavior.angularResistance = 6.0
-        itemBehavior.resistance = 2.0
-        itemBehavior.density = 2.0
-        return itemBehavior
-    }()
-    
-    lazy private var magnifyingGlassItemBehavior: UIDynamicItemBehavior = {
-        let items: [UIDynamicItem] = self.magnifyingGlassViews as [UIDynamicItem] + self.giphyViews as [UIDynamicItem]
-        let itemBehavior = UIDynamicItemBehavior(items: items)
-        itemBehavior.allowsRotation = true
-        itemBehavior.elasticity = 0.4
-        itemBehavior.angularResistance = 5
-        return itemBehavior
-    }()
-    
     lazy var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.delegate = self
@@ -103,68 +51,21 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
         return searchController
     }()
     
-    lazy var magnifyingGlassViews: [MagnifyingGlassView] = {
-        var magnifyingGlassViews = [MagnifyingGlassView]()
-        for _ in 0 ..< 60 {
-            let magnifyingGlassView = MagnifyingGlassView(frame: .zero)
-            self.emptyStateView.addSubview(magnifyingGlassView)
-            magnifyingGlassViews.append(magnifyingGlassView)
-        }
-        return magnifyingGlassViews
-    }()
-    
-    lazy var giphyViews: [GiphyView] = {
-        var giphyViews = [GiphyView]()
-        for _ in 0 ..< 20 {
-            let giphyView = GiphyView(frame: .zero)
-            self.emptyStateView.addSubview(giphyView)
-            giphyViews.append(giphyView)
-        }
-        return giphyViews
-    }()
-    
-    lazy var tapGesture: UITapGestureRecognizer = {
+    lazy private var tapGesture: UITapGestureRecognizer = {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.didTapNavigationBar(_:)))
         return tapGesture
     }()
     
-    // MARK: - Computed Properties
-    var dynamicItems: [UIDynamicItem] {
-        return magnifyingGlassViews as [UIDynamicItem] + [mainEmptyStateView, emptyStateLabel] as [UIDynamicItem] + giphyViews as [UIDynamicItem]
-    }
-    
-    var ovalCollisionPath: UIBezierPath {
-        let rect = emptyStateView.convert(mainEmptyStateView.ovalRect, from: mainEmptyStateView)
-        let ovalPath = UIBezierPath(ovalIn: rect)
-        ovalPath.lineWidth = mainEmptyStateView.lineWidth
-        return ovalPath
-    }
-    
-    var lineCollisionPath: UIBezierPath {
-        let linePath = UIBezierPath()
-        let startPoint = emptyStateView.convert(mainEmptyStateView.startPoint, from: mainEmptyStateView)
-        linePath.move(to: startPoint)
-        let endPoint = mainEmptyStateView.convert(mainEmptyStateView.endPoint, to: emptyStateView)
-        linePath.addLine(to: endPoint)
-        linePath.lineWidth = mainEmptyStateView.lineLineWidth
-        return linePath
-    }
+    lazy private var emptyStateTapGesture: UITapGestureRecognizer = {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.didTapEmptyState(_:)))
+        return tapGesture
+    }()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         searchViewModel.delegate = self
         setupUI()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        mainEmptyStateView.frame = CGRect(x: emptyStateView.center.x, y: emptyStateView.bounds.minY + 100.0, width: min(425, emptyStateView.bounds.width - 100), height: min(425, emptyStateView.bounds.width - 100))
-        mainEmptyStateView.center = CGPoint(x: emptyStateView.center.x, y: 100 + mainEmptyStateView.bounds.height * 0.5)
-        dynamicAnimator.updateItem(usingCurrentState: mainEmptyStateView)
-        mainAttachmentBehavior.anchorPoint = mainEmptyStateView.center
-        updateViews()
-        updateBoundries()
     }
 
     // MARK: - Setup
@@ -190,26 +91,8 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
         tableView.panGestureRecognizer.addTarget(self, action: #selector(self.handlePan(_:)))
         tableView.separatorEffect = UIVibrancyEffect(blurEffect: UIBlurEffect(style: .light))
         
-        mainEmptyStateView.translatesAutoresizingMaskIntoConstraints = true
-        mainEmptyStateView.color = UIColor.appBlue
-        emptyStateView.addSubview(mainEmptyStateView)
-        emptyStateLabel.font = UIFont.appFont(textStyle: .title2, weight: .medium)
-        emptyStateLabel.textColor = .appBlue
-        emptyStateLabel.numberOfLines = 0
-        emptyStateLabel.translatesAutoresizingMaskIntoConstraints = true
-        emptyStateLabel.center = CGPoint(x: emptyStateView.bounds.midX, y: emptyStateView.bounds.maxY - 100.0)
-        emptyStateView.addSubview(emptyStateLabel)
-        
-        arrange(giphyViews)
-        arrange(magnifyingGlassViews)
-        
-        dynamicAnimator.addBehavior(gravity)
-        dynamicAnimator.addBehavior(collision)
-        dynamicAnimator.addBehavior(mainAttachmentBehavior)
-        dynamicAnimator.addBehavior(labelAttachmentBehavior)
-        dynamicAnimator.addBehavior(itemBehavior)
-        dynamicAnimator.addBehavior(magnifyingGlassItemBehavior)
-        motionManager.startDeviceMotionUpdates(to: OperationQueue.main, withHandler: gravityUpdated)
+        add(childViewController: searchEmptyStateViewController, to: emptyStateView, at: 0)
+        searchEmptyStateViewController.view.addGestureRecognizer(emptyStateTapGesture)
         
         if traitCollection.forceTouchCapability == .available {
             registerForPreviewing(with: self, sourceView: tableView)
@@ -222,16 +105,6 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
         let range = (name.lowercased() as NSString).range(of: searchString.lowercased())
         attribString.addAttribute(.foregroundColor, value: UIColor.appBlue, range: range)
         return attribString
-    }
-    
-    private func arrange(_ views: [UIView]) {
-        views.forEach {
-            let size: CGFloat = CGFloat(arc4random() % 50 + 20)
-            let x: CGFloat = CGFloat(arc4random() % UInt32(self.emptyStateView.bounds.width - 100) + 50)
-            let y: CGFloat = CGFloat(arc4random() % UInt32(self.emptyStateView.bounds.height * 0.5 + 50) + UInt32(self.emptyStateView.bounds.height * 0.5))
-            $0.frame = CGRect(x: x, y: y, width: size, height: size)
-            self.dynamicAnimator.updateItem(usingCurrentState: $0)
-        }
     }
     
     // MARK: - Actions
@@ -249,38 +122,6 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
         sheetContainerViewController?.animateUp()
     }
     
-    // MARK: - Core Motion
-    @objc
-    private func gravityUpdated(motion: CMDeviceMotion?, error: Error?) {
-        
-        guard let motion = motion else { return }
-        let grav: CMAcceleration = motion.gravity;
-        
-        let x = CGFloat(grav.x)
-        let y = CGFloat(grav.y)
-        var p = CGPoint(x: x, y: y)
-        
-        let orientation = UIApplication.shared.statusBarOrientation;
-        
-        if orientation == UIInterfaceOrientation.landscapeRight {
-            let t = p.x
-            p.x = 0 - p.y
-            p.y = t
-        }
-        else if orientation == UIInterfaceOrientation.landscapeLeft {
-            let t = p.x
-            p.x = p.y
-            p.y = 0 - t
-        }
-        else if orientation == UIInterfaceOrientation.portraitUpsideDown {
-            p.x = p.x * -1
-            p.y = p.y * -1
-        }
-        
-        let v = CGVector(dx: p.x, dy: 0 - p.y)
-        gravity.gravityDirection = v
-    }
-    
     // MARK: - Helpers
     private func updateState() {
         let alpha: CGFloat
@@ -294,19 +135,6 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
         UIView.animate(withDuration: 0.2) { [unowned self] in
             self.emptyStateView.alpha = alpha
         }
-    }
-    
-    private func updateBoundries() {
-        collision.removeAllBoundaries()
-        let inset = UIEdgeInsets(top: 0, left: 0, bottom: (self.sheetContainerViewController?.topOffset ?? 0), right: 0)
-        collision.setTranslatesReferenceBoundsIntoBoundary(with: inset)
-        collision.addBoundary(withIdentifier: "ovalCollisionPath" as NSString, for: ovalCollisionPath)
-        collision.addBoundary(withIdentifier: "lineCollisionPath" as NSString, for: lineCollisionPath)
-    }
-    
-    private func updateViews() {
-        arrange(giphyViews)
-        arrange(magnifyingGlassViews)
     }
 }
 

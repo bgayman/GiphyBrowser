@@ -189,30 +189,11 @@
                         <viewLayoutGuide key="safeArea" id="v7D-xT-9Yk"/>
                     </view>
                     <connections>
-                        <outlet property="emptyStateLabel" destination="Pb3-ob-48a" id="rXg-4W-BDa"/>
                         <outlet property="emptyStateView" destination="orK-cd-wxv" id="Ahp-nZ-NOo"/>
-                        <outlet property="mainEmptyStateView" destination="Ydg-T4-BcQ" id="Cdd-Q5-oYa"/>
                         <outlet property="tableView" destination="dTm-KO-Lc6" id="2V4-lS-gjx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wXc-94-UjN" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search for Your Favorite GIFs" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Pb3-ob-48a">
-                    <rect key="frame" x="0.0" y="0.0" width="300" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <view contentMode="scaleToFill" id="Ydg-T4-BcQ" customClass="MagnifyingGlassView" customModule="Giphy_Browser" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <gestureRecognizers/>
-                    <viewLayoutGuide key="safeArea" id="SRm-XZ-RL3"/>
-                    <connections>
-                        <outletCollection property="gestureRecognizers" destination="VZ5-lb-BUq" appends="YES" id="fQh-WG-hY6"/>
-                    </connections>
-                </view>
                 <tapGestureRecognizer id="VZ5-lb-BUq">
                     <connections>
                         <action selector="didTapEmptyState:" destination="TNR-tX-v2s" id="gyg-Z5-haw"/>
