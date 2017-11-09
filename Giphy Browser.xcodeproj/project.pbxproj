@@ -98,6 +98,12 @@
 		CDF7E1301FAEB2B800674579 /* GiphyImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF7E12F1FAEB2B800674579 /* GiphyImage.swift */; };
 		CDF7E1311FAEB3CE00674579 /* Giphy.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF7E12B1FAEAACC00674579 /* Giphy.swift */; };
 		CDF7E1321FAEB3D200674579 /* GiphyImageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF7E12D1FAEB29C00674579 /* GiphyImageType.swift */; };
+		CDFED18C1FB49FA200D5226C /* UIViewController+ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFED18B1FB49FA200D5226C /* UIViewController+ChildViewController.swift */; };
+		CDFED18D1FB49FA200D5226C /* UIViewController+ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFED18B1FB49FA200D5226C /* UIViewController+ChildViewController.swift */; };
+		CDFED1901FB49FFD00D5226C /* SearchEmptyStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFED18E1FB49FFD00D5226C /* SearchEmptyStateViewController.swift */; };
+		CDFED1911FB49FFD00D5226C /* SearchEmptyStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFED18E1FB49FFD00D5226C /* SearchEmptyStateViewController.swift */; };
+		CDFED1921FB49FFD00D5226C /* SearchEmptyStateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDFED18F1FB49FFD00D5226C /* SearchEmptyStateViewController.xib */; };
+		CDFED1931FB49FFD00D5226C /* SearchEmptyStateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDFED18F1FB49FFD00D5226C /* SearchEmptyStateViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -169,6 +175,9 @@
 		CDF7E12B1FAEAACC00674579 /* Giphy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Giphy.swift; sourceTree = "<group>"; };
 		CDF7E12D1FAEB29C00674579 /* GiphyImageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiphyImageType.swift; sourceTree = "<group>"; };
 		CDF7E12F1FAEB2B800674579 /* GiphyImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiphyImage.swift; sourceTree = "<group>"; };
+		CDFED18B1FB49FA200D5226C /* UIViewController+ChildViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+ChildViewController.swift"; sourceTree = "<group>"; };
+		CDFED18E1FB49FFD00D5226C /* SearchEmptyStateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchEmptyStateViewController.swift; sourceTree = "<group>"; };
+		CDFED18F1FB49FFD00D5226C /* SearchEmptyStateViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchEmptyStateViewController.xib; sourceTree = "<group>"; };
 		DFB3A92DAA6218C1FE14F620 /* Pods-Giphy Browser.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Giphy Browser.release.xcconfig"; path = "Pods/Target Support Files/Pods-Giphy Browser/Pods-Giphy Browser.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -287,6 +296,8 @@
 			isa = PBXGroup;
 			children = (
 				CD8F9C7B1FB126B700E9BFF6 /* SearchViewController.swift */,
+				CDFED18E1FB49FFD00D5226C /* SearchEmptyStateViewController.swift */,
+				CDFED18F1FB49FFD00D5226C /* SearchEmptyStateViewController.xib */,
 				CD6A4DA81FB1DEA8007F7B81 /* Views */,
 			);
 			path = "Search View Controller";
@@ -368,6 +379,7 @@
 				CDC4B5BD1FAFF4DF00D20E0D /* UICollectionView+Animations.swift */,
 				CD6A4DA01FB0A3B3007F7B81 /* UIAlertController+Error.swift */,
 				CD2BA08E1FB153E5001E5724 /* UITableView+Animations.swift */,
+				CDFED18B1FB49FA200D5226C /* UIViewController+ChildViewController.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -524,6 +536,7 @@
 			files = (
 				CDB8A1781FB0DB0C0049012B /* SheetContainerViewController.xib in Resources */,
 				CDF7E1161FAEA9CD00674579 /* LaunchScreen.storyboard in Resources */,
+				CDFED1921FB49FFD00D5226C /* SearchEmptyStateViewController.xib in Resources */,
 				CDF7E1131FAEA9CD00674579 /* Assets.xcassets in Resources */,
 				CD5958C01FB29841005509B4 /* GiphyDetailViewController.xib in Resources */,
 				CDF7E1111FAEA9CD00674579 /* Main.storyboard in Resources */,
@@ -535,6 +548,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CDE9DCF51FAEBA1A005BBAFD /* GiphyTestData.json in Resources */,
+				CDFED1931FB49FFD00D5226C /* SearchEmptyStateViewController.xib in Resources */,
 				CD5958C11FB29841005509B4 /* GiphyDetailViewController.xib in Resources */,
 				CDB8A1791FB0DB0D0049012B /* SheetContainerViewController.xib in Resources */,
 				CD690EE61FAF64C3004364DF /* GiphyAutocompleteTestData.json in Resources */,
@@ -668,6 +682,7 @@
 				CDB8A1761FB0DB040049012B /* SheetContainerViewController.swift in Sources */,
 				CD8F9C7C1FB126B700E9BFF6 /* SearchViewController.swift in Sources */,
 				CDE9DCE11FAEB543005BBAFD /* Webservice.swift in Sources */,
+				CDFED18C1FB49FA200D5226C /* UIViewController+ChildViewController.swift in Sources */,
 				CDE9DCF71FAEBAC2005BBAFD /* GiphySearchClient.swift in Sources */,
 				CD6A4DA11FB0A3B3007F7B81 /* UIAlertController+Error.swift in Sources */,
 				CDE9DCF21FAEB96A005BBAFD /* GiphyMetadata.swift in Sources */,
@@ -680,6 +695,7 @@
 				CD5958BE1FB29841005509B4 /* GiphyDetailViewController.swift in Sources */,
 				CDE38EFF1FAFE0B600AE9EF8 /* LoaderCollectionViewCell.swift in Sources */,
 				CDF7E10E1FAEA9CD00674579 /* GiphyListViewController.swift in Sources */,
+				CDFED1901FB49FFD00D5226C /* SearchEmptyStateViewController.swift in Sources */,
 				CD690EDA1FAF605E004364DF /* GiphyAutocompleteResponse.swift in Sources */,
 				CD690ED81FAF5FE7004364DF /* GiphyAutocomplete.swift in Sources */,
 				CDC4B5BE1FAFF4DF00D20E0D /* UICollectionView+Animations.swift in Sources */,
@@ -699,11 +715,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD1F30291FB25ECD0021AE09 /* GiphyCollectionViewCell.swift in Sources */,
+				CDFED1911FB49FFD00D5226C /* SearchEmptyStateViewController.swift in Sources */,
 				CD5958BF1FB29841005509B4 /* GiphyDetailViewController.swift in Sources */,
 				CDE9DCFD1FAEC214005BBAFD /* GiphySearchClient+TestData.swift in Sources */,
 				CDE38EFD1FAFDAF400AE9EF8 /* ColorArt.swift in Sources */,
 				CD690EEB1FAF8D98004364DF /* GiphyUser.swift in Sources */,
 				CDB8A1771FB0DB040049012B /* SheetContainerViewController.swift in Sources */,
+				CDFED18D1FB49FA200D5226C /* UIViewController+ChildViewController.swift in Sources */,
 				CD1F30281FB24FF60021AE09 /* GiphyListViewController.swift in Sources */,
 				CD5958C41FB2ACD6005509B4 /* MagicMoveAnimator.swift in Sources */,
 				CDE9DD001FAF3821005BBAFD /* GiphyTrendingClient.swift in Sources */,
