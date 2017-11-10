@@ -147,7 +147,6 @@ final class MagicMoveAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         snapshot.contentMode = fromMagicView.contentMode
         snapshot.clipsToBounds = true
         snapshot.sd_setImage(with: toDataSource.fromURL)
-        fromMagicView.isHidden = true
         snapshot.frame = container.convert(fromMagicView.bounds, from: fromMagicView)
         container.addSubview(snapshot)
         
@@ -156,6 +155,9 @@ final class MagicMoveAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         
         var frame = finalFrame
         frame.origin.y += direction == .up ? frame.size.height : -frame.size.height
+        
+        toMagicView?.isHidden = true
+        fromMagicView.isHidden = true
         
         UIView.animate(withDuration: duration - 0.1, animations: {
             backdrop.alpha = 0
