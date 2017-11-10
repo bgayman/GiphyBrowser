@@ -241,9 +241,9 @@ extension GiphyListViewController: MagicMoveFromViewControllerDataSource {
 extension GiphyListViewController: GiphyViewModelDelegate, ErrorHandleable {
     
     func giphyViewModel(_ viewModel: GiphyViewModel, didUpdate giphies: [Giphy]) {
-        activityIndicator.stopAnimating()
+        activityIndicator?.stopAnimating()
         refresh.endRefreshing()
-        collectionView.reloadData()
+        collectionView?.reloadData()
     }
     
     func giphyViewModel(_ viewModel: GiphyViewModel, updateFailedWith error: Error) {
