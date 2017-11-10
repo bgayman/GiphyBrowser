@@ -80,6 +80,8 @@ class SheetContainerViewController: UIViewController {
     private func setupUI() {
         detailContainerView.layer.cornerRadius = detailContainerCornerRadius
         detailContainerView.layer.masksToBounds = true
+        detailContainerView.layer.borderWidth = 1.0 / UIScreen.main.scale
+        detailContainerView.layer.borderColor = UIColor.lightGray.cgColor
         
         handleView.layer.cornerRadius = handleView.bounds.height * 0.5
         handleView.layer.masksToBounds = true
