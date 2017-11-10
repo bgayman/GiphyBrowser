@@ -215,6 +215,10 @@ extension SearchViewController: UITableViewDragDelegate {
         let dragURLItem = UIDragItem(itemProvider: NSItemProvider(object: url))
         return [dragURLItem]
     }
+    
+    func tableView(_ tableView: UITableView, dragSessionWillBegin session: UIDragSession) {
+        sheetContainerViewController?.animateDown()
+    }
 }
 
 // MARK: - UIViewControllerPreviewingDelegate
