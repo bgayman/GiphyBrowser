@@ -159,7 +159,7 @@ extension GiphyListViewController: UICollectionViewDataSource, UICollectionViewD
         case .giphy(let giphy):
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(GiphyCollectionViewCell.self)", for: indexPath) as! GiphyCollectionViewCell
             cell.giphy = giphy
-            cell.backgroundColor = viewModel.colorArt(for: indexPath)?.bestColor
+            cell.imageView.backgroundColor = viewModel.colorArt(for: indexPath)?.bestColor ?? .lightGray
             return cell
         }
     }
@@ -254,7 +254,7 @@ extension GiphyListViewController: GiphyViewModelDelegate, ErrorHandleable {
     func giphyViewModel(_ viewModel: GiphyViewModel, didUpdate colorArt: ColorArt?, for giphy: Giphy) {
         let giphyCells = collectionView.visibleCells.flatMap { $0 as? GiphyCollectionViewCell }
         guard let cell = giphyCells.first(where: { $0.giphy == giphy }) else { return }
-        cell.imageView.backgroundColor = colorArt?.bestColor
+        cell.imageView.backgroundColor = colorArt?.bestColor ?? .lightGray
     }
 }
 
