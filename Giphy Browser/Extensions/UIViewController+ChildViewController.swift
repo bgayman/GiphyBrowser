@@ -19,6 +19,7 @@ extension UIViewController {
         childViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         childViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         childViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        childViewController.view.layoutIfNeeded()
         childViewController.didMove(toParentViewController: self)
     }
     
