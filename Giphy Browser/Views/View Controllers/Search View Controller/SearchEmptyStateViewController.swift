@@ -137,9 +137,9 @@ class SearchEmptyStateViewController: UIViewController {
         emptyStateLabel.translatesAutoresizingMaskIntoConstraints = true
         emptyStateLabel.center = CGPoint(x: view.bounds.midX, y: view.bounds.maxY - 100.0)
         emptyStateLabel.sizeToFit()
-        view.addSubview(emptyStateLabel)
         
         updateViews()
+        view.addSubview(emptyStateLabel)
         
         dynamicAnimator.addBehavior(gravity)
         dynamicAnimator.addBehavior(collision)
