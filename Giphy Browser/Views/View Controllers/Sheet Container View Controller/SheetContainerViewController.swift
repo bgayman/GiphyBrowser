@@ -33,6 +33,8 @@ class SheetContainerViewController: UIViewController {
         }
     }
     
+    var isSheetUp = false
+    private var isAnimatingUp = false
     private let detailContainerCornerRadius: CGFloat = 20
     var bottomConstraintStartView: CGFloat = 64.0
     private var bottomClampOffset: CGFloat = 64.0
@@ -130,11 +132,17 @@ class SheetContainerViewController: UIViewController {
                 self.detailContainerViewBottomConstraint.constant = self.bottomClampOffset
                 self.overlayView.alpha = 0.0
                 self.view.layoutIfNeeded()
-        })
+        }) { [unowned self] (_) in
+            if !self.isAnimatingUp {
+                self.isSheetUp = false
+            }
+        }
     }
     
     func animateUp()
     {
+        isSheetUp = true
+        isAnimatingUp = true
         UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: [.allowUserInteraction], animations:
             { [unowned self] in
                 let bottomInset: CGFloat
@@ -148,6 +156,7 @@ class SheetContainerViewController: UIViewController {
                 self.overlayView.alpha = 1.0
                 self.view.layoutIfNeeded()
         }) { [unowned self] (_) in
+            self.isAnimatingUp = false
             if let navVC = self.detailViewController as? UINavigationController,
                let searchViewController = navVC.topViewController as? SearchViewController {
                 searchViewController.searchController.searchBar.becomeFirstResponder()

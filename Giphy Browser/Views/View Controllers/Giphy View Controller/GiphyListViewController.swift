@@ -221,7 +221,9 @@ extension GiphyListViewController: UIScrollViewDelegate {
         if scrollSpeed < 0 {
             navigationController?.setNavigationBarHidden(false, animated: true)
         }
-        sheetContainerViewController?.setSheetHidden(hidden: navigationController?.isNavigationBarHidden == true)
+        if sheetContainerViewController?.isSheetUp == false {
+            sheetContainerViewController?.setSheetHidden(hidden: navigationController?.isNavigationBarHidden == true)
+        }
         collectionView.collectionViewLayout.invalidateLayout()
     }
 }
