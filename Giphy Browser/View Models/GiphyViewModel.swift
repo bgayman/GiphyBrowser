@@ -159,9 +159,10 @@ final class GiphyViewModel: NSObject {
     }
     
     func sizeForItem(at indexPath: IndexPath, maxWidth: CGFloat, maxHeight: CGFloat) -> CGSize {
-        if isLoadingIndexPath(indexPath) {
+        guard !isLoadingIndexPath(indexPath) else {
             return CGSize(width: maxWidth, height: 44.0)
         }
+        guard 0 ..< giphies.count ~= indexPath.item else { return .zero }
         let image = giphies[indexPath.item].images[GiphyViewModel.listImageType.rawValue]
         let width = CGFloat(image?.width ?? 0)
         let height = CGFloat(image?.height ?? 0)
