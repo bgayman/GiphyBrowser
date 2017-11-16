@@ -255,8 +255,8 @@ extension GiphyListViewController: GiphyViewModelDelegate, ErrorHandleable {
     }
     
     func giphyViewModel(_ viewModel: GiphyViewModel, didUpdate colorArt: ColorArt?, for giphy: Giphy) {
-        let giphyCells = collectionView.visibleCells.flatMap { $0 as? GiphyCollectionViewCell }
-        guard let cell = giphyCells.first(where: { $0.giphy == giphy }) else { return }
+        let giphyCells = collectionView?.visibleCells.flatMap { $0 as? GiphyCollectionViewCell }
+        guard let cell = giphyCells?.first(where: { $0.giphy == giphy }) else { return }
         cell.imageView.backgroundColor = colorArt?.bestColor ?? .lightGray
     }
 }
