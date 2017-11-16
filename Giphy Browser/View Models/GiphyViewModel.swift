@@ -167,6 +167,7 @@ final class GiphyViewModel: NSObject {
         let width = CGFloat(image?.width ?? 0)
         let height = CGFloat(image?.height ?? 0)
         let size = CGSize(width: width, height: height)
+        guard size != .zero else { return .zero }
         let maxSize = CGSize(width: min(425, maxWidth), height: min(700, maxHeight))
         let rect = AVMakeRect(aspectRatio: size, insideRect: CGRect(origin: .zero, size: maxSize))
         return rect.size
