@@ -39,7 +39,7 @@ struct Giphy: Codable {
     private let sourceValue: String
     private let contentURLValue: String
     private let sourcePostURLValue: String
-    private let isIndexableValue: Int
+    private let isIndexableValue: Int?
     
     // MARK: - Computed Properties
     var contentURL: URL? {
