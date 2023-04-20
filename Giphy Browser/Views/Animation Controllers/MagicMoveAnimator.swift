@@ -8,6 +8,7 @@
 
 import UIKit
 import SDWebImage
+import FLAnimatedImage
 
 // MARK: - Protocols
 protocol MagicMoveFromViewControllerDataSource: class {

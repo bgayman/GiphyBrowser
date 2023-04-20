@@ -11,10 +11,15 @@ DEPENDENCIES:
   - SDWebImage (~> 4.2)
   - SDWebImage/GIF
 
+SPEC REPOS:
+  trunk:
+    - FLAnimatedImage
+    - SDWebImage
+
 SPEC CHECKSUMS:
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   SDWebImage: 1fa4c9edf525b744f002db89f3f5a38b3cd4c541
 
 PODFILE CHECKSUM: fc04d7bae677e7bf19de4a4daca216bf19b8202d
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.12.1

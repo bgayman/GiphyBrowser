@@ -9,6 +9,7 @@
 import UIKit
 import SDWebImage
 import MobileCoreServices
+import FLAnimatedImage
 
 /// A view controller that displays GIFs in a scrolling list
 final class GiphyListViewController: UIViewController, StoryboardInitializable {

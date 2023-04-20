@@ -32,7 +32,8 @@ extension GiphyAutocomplete: Equatable {
 
 extension GiphyAutocomplete: Hashable {
     
-    var hashValue: Int {
-        return name.hashValue ^ nameEncoded.hashValue
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(nameEncoded)
     }
 }

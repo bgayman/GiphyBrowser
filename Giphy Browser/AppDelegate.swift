@@ -22,6 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let searchNavigationController = UINavigationController(rootViewController: searchViewController)
         window?.rootViewController = SheetContainerViewController(masterViewController: navigationController, detailViewController: searchNavigationController)
         window?.makeKeyAndVisible()
+        
+        if #available(iOS 13.0, *) {
+            window?.overrideUserInterfaceStyle = .light
+        }
+        
         return true
     }
 

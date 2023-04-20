@@ -193,7 +193,7 @@ final class GiphyViewModel: NSObject {
     private func processStillImageColors(response: GiphyResponse) {
         let urls = response.giphies.flatMap { $0.images[GiphyViewModel.stillPreviewType.rawValue]?.url }
         urls.forEach {
-            SDWebImageManager.shared().loadImage(with: $0, options: [], progress: nil)
+            SDWebImageManager.shared.loadImage(with: $0, options: [], progress: nil)
             { (image, _, _, _, _, url) in
                 guard let image = image, let url = url  else { return }
                 ColorArt.processImage(image, scaledToSize: image.size, withThreshold: 8) { (colorArt) in

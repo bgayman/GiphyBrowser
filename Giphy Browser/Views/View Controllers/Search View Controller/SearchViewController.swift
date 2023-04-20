@@ -70,7 +70,7 @@ final class SearchViewController: UIViewController, StoryboardInitializable {
 
     // MARK: - Setup
     private func setupUI() {
-        view.backgroundColor = UIColor.appBeige.withAlphaComponent(0.75)
+        view.backgroundColor = UIColor.appBeige
         title = "Search"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font: UIFont.appFont(weight: .medium, pointSize: 23.0)]
         

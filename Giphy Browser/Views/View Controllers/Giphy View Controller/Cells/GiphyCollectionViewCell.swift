@@ -8,6 +8,7 @@
 
 import UIKit
 import SDWebImage
+import FLAnimatedImage
 
 /// Collection view cell that displays a GIF
 class GiphyCollectionViewCell: UICollectionViewCell {

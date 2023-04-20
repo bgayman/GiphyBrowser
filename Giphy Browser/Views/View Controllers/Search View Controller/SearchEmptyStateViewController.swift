@@ -128,6 +128,7 @@ class SearchEmptyStateViewController: UIViewController {
 
     // MARK: - Setup
     private func setupUI() {
+        view.backgroundColor = UIColor.appBeige
         mainEmptyStateView.translatesAutoresizingMaskIntoConstraints = true
         mainEmptyStateView.color = UIColor.appBlue
         view.addSubview(mainEmptyStateView)

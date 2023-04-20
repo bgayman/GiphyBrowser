@@ -9,6 +9,7 @@
 import UIKit
 import SDWebImage
 import MobileCoreServices
+import FLAnimatedImage
 
 /// View Controller that displays a single high quality GIF
 final class GiphyDetailViewController: UIViewController {
@@ -129,7 +130,7 @@ final class GiphyDetailViewController: UIViewController {
     
     
     @IBAction private func didPressAction(_ sender: UIButton) {
-        guard let data = imageView.animatedImage?.data else { return }
+        guard let data = imageView.image?.sd_imageData(as: .GIF) else { return }
         let activityController = UIActivityViewController(activityItems: [data as Any], applicationActivities: nil)
         activityController.popoverPresentationController?.sourceView = sender
         activityController.popoverPresentationController?.sourceRect = sender.bounds

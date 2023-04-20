@@ -8,6 +8,7 @@
 
 import UIKit
 import SDWebImage
+import FLAnimatedImage
 
 /// Container view controller that allows a master view controller to slide over a detail view controller
 class SheetContainerViewController: UIViewController {
